@@ -1,0 +1,234 @@
+[
+  {
+    "name": "getContractTermsId",
+    "title": "getContractTermsId",
+    "description": "This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.",
+    "openApiType": {
+      "operationId": "getContractTermsId",
+      "parameters": [
+        {
+          "name": "contractId",
+          "description": "Contract workspace ID Eg: contractId=Doc123456",
+          "in": "path",
+          "newParameterName": "contractid"
+        },
+        {
+          "name": "user",
+          "description": "User ID of the user on whose behalf the API call is invoked.",
+          "in": "query",
+          "newParameterName": "user"
+        },
+        {
+          "name": "passwordAdapter",
+          "description": "Password adapter used for authenticating the user on whose behalf the API call is invoked.",
+          "in": "query",
+          "newParameterName": "passwordadapter"
+        },
+        {
+          "name": "realm",
+          "description": "Name of the SAP Ariba Contract site to which the API query is sent.",
+          "in": "query",
+          "newParameterName": "realm"
+        }
+      ],
+      "requestBody": {
+        "contentType": "application/json"
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "createContractTerms",
+    "title": "createContractTerms",
+    "description": "This endpoint helps you create a contract terms document in the specified contract workspace in SAP Ariba Contracts and a contract request for the corresponding compliance contract in procurement or invoicing solutions from SAP Ariba Procurement solutions. To create the contract request, the endpoint uses the ID of the newly-created contract terms document. When the endpoint successfully creates the contract terms document and the compliance contract request, it returns the details of the contract terms document as well as the contract request ID of the compliance contract.",
+    "openApiType": {
+      "operationId": "createContractTerms",
+      "parameters": [
+        {
+          "name": "body",
+          "description": "Contains the buyer realm name that is input by the user to specify where the compliance contract needs to be created and the contract workspace header fields that are appended by the API while processing the request.",
+          "newParameterName": "body"
+        },
+        {
+          "name": "contractId",
+          "description": "Contract workspace ID Eg: contractId=Doc12345",
+          "in": "path",
+          "newParameterName": "contractid"
+        },
+        {
+          "name": "user",
+          "description": "User ID of the user on whose behalf the API call is invoked.",
+          "in": "query",
+          "newParameterName": "user"
+        },
+        {
+          "name": "passwordAdapter",
+          "description": "Password adapter used for authenticating the user on whose behalf the API call is invoked.",
+          "in": "query",
+          "newParameterName": "passwordadapter"
+        },
+        {
+          "name": "realm",
+          "description": "Name of the SAP Ariba Contract site to which the API query is sent.",
+          "in": "query",
+          "newParameterName": "realm"
+        }
+      ],
+      "requestBody": {
+        "contentType": "application/json"
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "syncLineItemsToTerms",
+    "title": "syncLineItemsToTerms",
+    "description": "Synchronize the contract line item information of a contract workspace with the linked compliance contract by specifying the IDs of the contract workspace and the compliance contract. If the request is successful, the API initiates an asynchronous job and returns the job ID for reference.",
+    "openApiType": {
+      "operationId": "syncLineItemsToTerms",
+      "parameters": [
+        {
+          "name": "body",
+          "description": "Request body containing the attributes to be passed with the API call. The only supported attribute is \"action\", whose value must be \"SyncLineItemsToTerms\\\".",
+          "newParameterName": "body"
+        },
+        {
+          "name": "contractId",
+          "description": "The ID of the contract workspace whose line item information you want to sync.",
+          "in": "path",
+          "newParameterName": "contractid"
+        },
+        {
+          "name": "contractTermId",
+          "description": "The ID of the compliance contract linked with the specified contract workspace",
+          "in": "path",
+          "newParameterName": "contracttermid"
+        },
+        {
+          "name": "user",
+          "description": "User ID of the user on whose behalf the API call is invoked.",
+          "in": "query",
+          "newParameterName": "user"
+        },
+        {
+          "name": "passwordAdapter",
+          "description": "Password adapter used for authenticating the user on whose behalf the API call is invoked.",
+          "in": "query",
+          "newParameterName": "passwordadapter"
+        },
+        {
+          "name": "realm",
+          "description": "Name of the SAP Ariba Contract site to which the API query is sent.",
+          "in": "query",
+          "newParameterName": "realm"
+        }
+      ],
+      "requestBody": {
+        "contentType": "application/json"
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false
+    }
+  }
+]

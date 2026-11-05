@@ -1,0 +1,1240 @@
+{
+    "id": "BUh9CnRP0XAbtGgt",
+    "name": "blocked-invoice-resolution-workflow",
+    "description": "Daily automated workflow that retrieves all blocked supplier invoices from S/4HANA, enriches each with PO details, goods receipt status, Ariba contract terms, and cost center manager identity, then invokes an AI agent to classify the block reason and recommend a resolution. Invoices within the 2% variance tolerance are auto-released; all others are routed to the cost center manager via Outlook email and SAP Task Center for approval. Post-decision, approved invoices are released in S/4HANA and rejected invoices trigger an AP team notification.",
+    "nodes": [
+        {
+            "parameters": {
+                "content": "⚠️ **Daily Scheduler Required**\n\nThis workflow is triggered via webhook. An external scheduler (e.g. SAP BTP Job Scheduler) must call this endpoint once daily.\n\nNo native schedule trigger is available on this n8n instance.",
+                "height": 130,
+                "width": 400,
+                "color": 3
+            },
+            "id": "6634624c-aa5d-4f4d-8f21-d3ad0f8444bf",
+            "name": "Scheduler Note",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                -704,
+                -304
+            ]
+        },
+        {
+            "parameters": {
+                "content": "🤖 **AI Agent: blocked-invoice-resolution-agent**\n\nThis node invokes the in-solution AI agent to classify the block reason and recommend a resolution action (auto_release / escalate / manual_review).",
+                "height": 120,
+                "width": 400,
+                "color": 4
+            },
+            "id": "5d1d4ad9-d205-4903-8455-af916cccdf26",
+            "name": "Agent Note",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                704,
+                -288
+            ]
+        },
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "blocked-invoice-resolution-ffdbb/blocked-invoice-resolution-workflow/blocked-invoice-daily-run",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "e20a4796-aae2-414e-aad8-409e400bdd54",
+            "name": "Blocked Invoice Daily Run",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2.1,
+            "position": [
+                -704,
+                -96
+            ],
+            "webhookId": "b8d72c01-1234-4abc-9def-000000000001"
+        },
+        {
+            "parameters": {
+                "mcpServerName": "{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\"}",
+                "toolFromList": "{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\"}",
+                "toolArguments": "{\"$filter\":\"PaymentBlockingReason ne ''\",\"$top\":\"100\"}",
+                "additionalOptions": {
+                    "timeout": 30000,
+                    "includeMetadata": false
+                },
+                "mcpServers": "[{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\",\"description\":\"S/4HANA Supplier Invoice — list blocked invoices, read details, release payment blocks.\",\"tools\":[{\"name\":\"get_metadata_api_supplierinvoice_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_supplierinvoice_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoiceitemglacct\",\"description\":\"Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"function_release_for_api_supplierinvoice_process_srv\",\"description\":\"OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\",\"description\":\"S/4HANA Purchase Order — read PO header and line items.\",\"tools\":[{\"name\":\"get_metadata_api_purchaseorder_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_purchaseorder_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\",\"description\":\"S/4HANA Goods Receipt — check GR posting status for POs.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Get the total count of entities in the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\",\"description\":\"S/4HANA Cost Center — look up responsible manager email.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenterText_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenterText_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcentertext_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenterText_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenter_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenter_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenter_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a collection of contained entities from the _CostCenterText contained entity set (accessed via navigation path: A_CostCenter_2 → _CostCenterText) in the sap_self service. Supports OData query options for filtering, sorting, and pagination.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a single contained entity by its key from the _CostCenterText contained entity set in the sap_self service. Provide all ancestor and entity key values to identify the specific entity.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Count the number of entities in the contained _CostCenterText entity set in the sap_self service. Optionally use $filter to count only entities matching specific criteria.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\",\"description\":\"Ariba Contract Terms Management — retrieve supplier contract terms.\",\"tools\":[{\"name\":\"getContractTermsId\",\"description\":\"This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]}]"
+            },
+            "id": "2267165b-e235-4cff-a707-58408c872ca0",
+            "name": "Fetch Blocked Invoices",
+            "type": "CUSTOM.sapMcpClient",
+            "typeVersion": 1,
+            "position": [
+                -448,
+                -96
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "authentication": "microsoftEntraServicePrincipalApi",
+                "mailbox": {
+                    "__rl": true,
+                    "value": "eric.solberg@sap.com",
+                    "mode": "id"
+                },
+                "toRecipients": "ap-team@company.com",
+                "subject": "ALERT: Blocked Invoice Daily Run Failed",
+                "bodyContent": "=The daily blocked invoice run failed at the data fetch step.\n\nError: {{ $json.error }}\n\nPlease investigate and re-trigger manually.",
+                "additionalFields": {}
+            },
+            "id": "06be4fb7-d1fa-44e5-a55f-4d6bd99d4271",
+            "name": "Email AP - Fetch Failed",
+            "type": "n8n-nodes-base.microsoftOutlook",
+            "typeVersion": 2,
+            "position": [
+                -448,
+                128
+            ],
+            "webhookId": "5c4c08c9-14b0-420c-9eaa-836d465b2925",
+            "credentials": {
+                "microsoftEntraServicePrincipalApi": {
+                    "id": "a0TPSIn3S41ZH2ym",
+                    "name": "Microsoft Outlook for MN8n instance1|sap.microsoftoutlook.btpn8n"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ JSON.stringify({ status: 'error', step: 'fetch_blocked_invoices', error: $json.error }) }}",
+                "options": {
+                    "responseCode": 500
+                }
+            },
+            "id": "a538d3d7-2dcc-4753-b0c3-80a470336eb9",
+            "name": "Respond - Fetch Error",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.5,
+            "position": [
+                -208,
+                128
+            ]
+        },
+        {
+            "parameters": {
+                "fieldToSplitOut": "result.structuredContent.results",
+                "options": {}
+            },
+            "id": "a91143e6-f817-4279-b440-cd7923f54a2c",
+            "name": "Split Out Invoices",
+            "type": "n8n-nodes-base.splitOut",
+            "typeVersion": 1,
+            "position": [
+                -176,
+                -96
+            ]
+        },
+        {
+            "parameters": {
+                "mcpServerName": "{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\"}",
+                "toolFromList": "{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\"}",
+                "toolArguments": "={{ JSON.stringify({ PurchaseOrder: $json.PurchaseOrder }) }}",
+                "additionalOptions": {
+                    "timeout": 30000,
+                    "includeMetadata": false
+                },
+                "mcpServers": "[{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\",\"description\":\"S/4HANA Supplier Invoice — list blocked invoices, read details, release payment blocks.\",\"tools\":[{\"name\":\"get_metadata_api_supplierinvoice_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_supplierinvoice_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoiceitemglacct\",\"description\":\"Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"function_release_for_api_supplierinvoice_process_srv\",\"description\":\"OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\",\"description\":\"S/4HANA Purchase Order — read PO header and line items.\",\"tools\":[{\"name\":\"get_metadata_api_purchaseorder_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_purchaseorder_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\",\"description\":\"S/4HANA Goods Receipt — check GR posting status for POs.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Get the total count of entities in the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\",\"description\":\"S/4HANA Cost Center — look up responsible manager email.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenterText_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenterText_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcentertext_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenterText_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenter_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenter_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenter_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a collection of contained entities from the _CostCenterText contained entity set (accessed via navigation path: A_CostCenter_2 → _CostCenterText) in the sap_self service. Supports OData query options for filtering, sorting, and pagination.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a single contained entity by its key from the _CostCenterText contained entity set in the sap_self service. Provide all ancestor and entity key values to identify the specific entity.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Count the number of entities in the contained _CostCenterText entity set in the sap_self service. Optionally use $filter to count only entities matching specific criteria.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\",\"description\":\"Ariba Contract Terms Management — retrieve supplier contract terms.\",\"tools\":[{\"name\":\"getContractTermsId\",\"description\":\"This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]}]"
+            },
+            "id": "cd33d565-18df-444f-a43b-42531c80a29f",
+            "name": "Get Purchase Order",
+            "type": "CUSTOM.sapMcpClient",
+            "typeVersion": 1,
+            "position": [
+                80,
+                -208
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "po-flag",
+                            "name": "po_enrichment_failed",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "id": "po-err",
+                            "name": "po_error",
+                            "value": "={{ $json.error }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "245b1302-dfab-4c09-ac85-8ea9e68a9781",
+            "name": "Flag PO Missing",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.5,
+            "position": [
+                320,
+                -320
+            ]
+        },
+        {
+            "parameters": {
+                "mcpServerName": "{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\"}",
+                "toolFromList": "{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\"}",
+                "toolArguments": "={{ JSON.stringify({ '$filter': \"PurchaseOrder eq '\" + $('Split Out Invoices').item.json.PurchaseOrder + \"'\" }) }}",
+                "additionalOptions": {
+                    "timeout": 30000,
+                    "includeMetadata": false
+                },
+                "mcpServers": "[{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\",\"description\":\"S/4HANA Supplier Invoice — list blocked invoices, read details, release payment blocks.\",\"tools\":[{\"name\":\"get_metadata_api_supplierinvoice_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_supplierinvoice_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoiceitemglacct\",\"description\":\"Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"function_release_for_api_supplierinvoice_process_srv\",\"description\":\"OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\",\"description\":\"S/4HANA Purchase Order — read PO header and line items.\",\"tools\":[{\"name\":\"get_metadata_api_purchaseorder_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_purchaseorder_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\",\"description\":\"S/4HANA Goods Receipt — check GR posting status for POs.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Get the total count of entities in the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\",\"description\":\"S/4HANA Cost Center — look up responsible manager email.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenterText_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenterText_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcentertext_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenterText_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenter_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenter_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenter_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a collection of contained entities from the _CostCenterText contained entity set (accessed via navigation path: A_CostCenter_2 → _CostCenterText) in the sap_self service. Supports OData query options for filtering, sorting, and pagination.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a single contained entity by its key from the _CostCenterText contained entity set in the sap_self service. Provide all ancestor and entity key values to identify the specific entity.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Count the number of entities in the contained _CostCenterText entity set in the sap_self service. Optionally use $filter to count only entities matching specific criteria.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\",\"description\":\"Ariba Contract Terms Management — retrieve supplier contract terms.\",\"tools\":[{\"name\":\"getContractTermsId\",\"description\":\"This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]}]"
+            },
+            "id": "ee16c699-9fa5-4741-803f-d0af14618447",
+            "name": "Get Goods Receipt",
+            "type": "CUSTOM.sapMcpClient",
+            "typeVersion": 1,
+            "position": [
+                80,
+                -80
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "gr-flag",
+                            "name": "gr_enrichment_failed",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "id": "gr-err",
+                            "name": "gr_error",
+                            "value": "={{ $json.error }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "822e5ca4-554b-4815-9868-90878b6d533d",
+            "name": "Flag GR Missing",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.5,
+            "position": [
+                320,
+                -160
+            ]
+        },
+        {
+            "parameters": {
+                "mcpServerName": "{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\"}",
+                "toolFromList": "{\"name\":\"get_a_costcenter_2_for_sap_self\"}",
+                "toolArguments": "={{ JSON.stringify({ CostCenter: $('Get Purchase Order').item.json.result.structuredContent.CostCenter, ControllingArea: 'A000', ValidityEndDate: '9999-12-31T00:00:00' }) }}",
+                "additionalOptions": {
+                    "timeout": 30000,
+                    "includeMetadata": false
+                },
+                "mcpServers": "[{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\",\"description\":\"S/4HANA Supplier Invoice — list blocked invoices, read details, release payment blocks.\",\"tools\":[{\"name\":\"get_metadata_api_supplierinvoice_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_supplierinvoice_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoiceitemglacct\",\"description\":\"Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"function_release_for_api_supplierinvoice_process_srv\",\"description\":\"OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\",\"description\":\"S/4HANA Purchase Order — read PO header and line items.\",\"tools\":[{\"name\":\"get_metadata_api_purchaseorder_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_purchaseorder_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\",\"description\":\"S/4HANA Goods Receipt — check GR posting status for POs.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Get the total count of entities in the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\",\"description\":\"S/4HANA Cost Center — look up responsible manager email.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenterText_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenterText_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcentertext_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenterText_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenter_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenter_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenter_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a collection of contained entities from the _CostCenterText contained entity set (accessed via navigation path: A_CostCenter_2 → _CostCenterText) in the sap_self service. Supports OData query options for filtering, sorting, and pagination.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a single contained entity by its key from the _CostCenterText contained entity set in the sap_self service. Provide all ancestor and entity key values to identify the specific entity.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Count the number of entities in the contained _CostCenterText entity set in the sap_self service. Optionally use $filter to count only entities matching specific criteria.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\",\"description\":\"Ariba Contract Terms Management — retrieve supplier contract terms.\",\"tools\":[{\"name\":\"getContractTermsId\",\"description\":\"This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]}]"
+            },
+            "id": "e348f25a-fc63-4184-82ec-bba3907804f0",
+            "name": "Get Cost Center Manager",
+            "type": "CUSTOM.sapMcpClient",
+            "typeVersion": 1,
+            "position": [
+                80,
+                48
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "cc-flag",
+                            "name": "cc_enrichment_failed",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "id": "cc-err",
+                            "name": "cc_error",
+                            "value": "={{ $json.error }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "121fca82-0869-4c7a-bcc9-d8c826722e01",
+            "name": "Flag CC Missing",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.5,
+            "position": [
+                320,
+                0
+            ]
+        },
+        {
+            "parameters": {
+                "mcpServerName": "{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\"}",
+                "toolFromList": "{\"name\":\"getContractTermsId\"}",
+                "toolArguments": "={{ JSON.stringify({ id: $('Split Out Invoices').item.json.InvoicingParty }) }}",
+                "additionalOptions": {
+                    "timeout": 30000,
+                    "includeMetadata": false
+                },
+                "mcpServers": "[{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\",\"description\":\"S/4HANA Supplier Invoice — list blocked invoices, read details, release payment blocks.\",\"tools\":[{\"name\":\"get_metadata_api_supplierinvoice_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_supplierinvoice_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoiceitemglacct\",\"description\":\"Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"function_release_for_api_supplierinvoice_process_srv\",\"description\":\"OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\",\"description\":\"S/4HANA Purchase Order — read PO header and line items.\",\"tools\":[{\"name\":\"get_metadata_api_purchaseorder_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_purchaseorder_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\",\"description\":\"S/4HANA Goods Receipt — check GR posting status for POs.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Get the total count of entities in the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\",\"description\":\"S/4HANA Cost Center — look up responsible manager email.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenterText_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenterText_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcentertext_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenterText_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenter_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenter_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenter_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a collection of contained entities from the _CostCenterText contained entity set (accessed via navigation path: A_CostCenter_2 → _CostCenterText) in the sap_self service. Supports OData query options for filtering, sorting, and pagination.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a single contained entity by its key from the _CostCenterText contained entity set in the sap_self service. Provide all ancestor and entity key values to identify the specific entity.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Count the number of entities in the contained _CostCenterText entity set in the sap_self service. Optionally use $filter to count only entities matching specific criteria.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\",\"description\":\"Ariba Contract Terms Management — retrieve supplier contract terms.\",\"tools\":[{\"name\":\"getContractTermsId\",\"description\":\"This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]}]"
+            },
+            "id": "66fbae5a-e30b-4fb6-9c74-937015c4a618",
+            "name": "Get Ariba Contract Terms",
+            "type": "CUSTOM.sapMcpClient",
+            "typeVersion": 1,
+            "position": [
+                80,
+                160
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "ariba-flag",
+                            "name": "ariba_enrichment_failed",
+                            "value": true,
+                            "type": "boolean"
+                        },
+                        {
+                            "id": "ariba-err",
+                            "name": "ariba_error",
+                            "value": "={{ $json.error }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "4e3a419b-f22b-44ce-8df2-1b1b967ca796",
+            "name": "Flag Ariba Missing",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.5,
+            "position": [
+                320,
+                160
+            ]
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "inv-id",
+                            "name": "invoice_id",
+                            "value": "={{ $('Split Out Invoices').item.json.SupplierInvoice }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "inv-amt",
+                            "name": "invoice_amount",
+                            "value": "={{ $('Split Out Invoices').item.json.InvoiceGrossAmount }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "inv-cur",
+                            "name": "currency",
+                            "value": "={{ $('Split Out Invoices').item.json.DocumentCurrency }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "inv-fy",
+                            "name": "fiscal_year",
+                            "value": "={{ $('Split Out Invoices').item.json.FiscalYear }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "po-num",
+                            "name": "po_number",
+                            "value": "={{ $('Split Out Invoices').item.json.PurchaseOrder }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "vendor",
+                            "name": "vendor_id",
+                            "value": "={{ $('Split Out Invoices').item.json.InvoicingParty }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "po-price",
+                            "name": "po_agreed_price",
+                            "value": "={{ $('Get Purchase Order').item.json.result.structuredContent.NetPriceAmount }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "gr-stat",
+                            "name": "gr_status",
+                            "value": "={{ $('Get Goods Receipt').item.json.result.structuredContent.results && $('Get Goods Receipt').item.json.result.structuredContent.results.length > 0 ? 'YES' : 'NO' }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "mgr",
+                            "name": "manager_email",
+                            "value": "={{ $('Get Cost Center Manager').item.json.result.structuredContent.ResponsiblePerson }}",
+                            "type": "string"
+                        },
+                        {
+                            "id": "contract",
+                            "name": "contract_terms",
+                            "value": "={{ JSON.stringify($('Get Ariba Contract Terms').item.json.result.structuredContent) }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "bee36aa5-59bf-4bf6-ac41-4f965b2fea4b",
+            "name": "Assemble Enriched Invoice",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.5,
+            "position": [
+                560,
+                -80
+            ]
+        },
+        {
+            "parameters": {
+                "agentName": "{\"ordId\":\"customer.build:agent:blocked-invoice-resolution-ffdbb.blocked-invoice-resolution-agent:v1\",\"name\":\"blocked-invoice-resolution-agent\"}",
+                "sessionId": "={{ $json.invoice_id }}",
+                "additionalOptions": {},
+                "agents": "[{\"ordId\":\"customer.build:agent:blocked-invoice-resolution-ffdbb.blocked-invoice-resolution-agent:v1\",\"name\":\"blocked-invoice-resolution-agent\"}]"
+            },
+            "id": "e77033d1-d8aa-41ed-8d32-afdb1a364e32",
+            "name": "Classify Invoice",
+            "type": "CUSTOM.sapAgent",
+            "typeVersion": 1,
+            "position": [
+                800,
+                -80
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "cl-fb",
+                            "name": "response",
+                            "value": "={{ JSON.stringify({ invoice_id: $('Assemble Enriched Invoice').item.json.invoice_id, block_reason: 'classification_failed', variance_pct: 0, recommended_action: 'manual_review', supporting_evidence: ['AI classification failed: ' + $json.error], confidence: 'low' }) }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "1eebcf2b-1fc5-4daa-86b5-54fb0a5a82ba",
+            "name": "Set Classification Error",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.5,
+            "position": [
+                1040,
+                80
+            ]
+        },
+        {
+            "parameters": {
+                "rules": {
+                    "values": [
+                        {
+                            "conditions": {
+                                "options": {
+                                    "caseSensitive": true,
+                                    "leftValue": "",
+                                    "typeValidation": "strict",
+                                    "version": 3
+                                },
+                                "conditions": [
+                                    {
+                                        "id": "auto-release-check",
+                                        "leftValue": "={{ (() => { try { return JSON.parse($json.response || '{}').recommended_action; } catch(e) { return 'manual_review'; } })() }}",
+                                        "rightValue": "auto_release",
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "equals"
+                                        }
+                                    }
+                                ],
+                                "combinator": "and"
+                            },
+                            "renameOutput": true,
+                            "outputKey": "auto_release"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "10fd87f0-fa61-40d0-8ed3-30d6246ce3d7",
+            "name": "Route by Variance",
+            "type": "n8n-nodes-base.switch",
+            "typeVersion": 3.4,
+            "position": [
+                1280,
+                -80
+            ]
+        },
+        {
+            "parameters": {
+                "mcpServerName": "{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\"}",
+                "toolFromList": "{\"name\":\"function_release_for_api_supplierinvoice_process_srv\"}",
+                "toolArguments": "={{ JSON.stringify({ SupplierInvoice: $('Assemble Enriched Invoice').item.json.invoice_id, FiscalYear: $('Assemble Enriched Invoice').item.json.fiscal_year }) }}",
+                "additionalOptions": {
+                    "timeout": 30000,
+                    "includeMetadata": false
+                },
+                "mcpServers": "[{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\",\"description\":\"S/4HANA Supplier Invoice — list blocked invoices, read details, release payment blocks.\",\"tools\":[{\"name\":\"get_metadata_api_supplierinvoice_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_supplierinvoice_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoiceitemglacct\",\"description\":\"Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"function_release_for_api_supplierinvoice_process_srv\",\"description\":\"OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\",\"description\":\"S/4HANA Purchase Order — read PO header and line items.\",\"tools\":[{\"name\":\"get_metadata_api_purchaseorder_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_purchaseorder_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\",\"description\":\"S/4HANA Goods Receipt — check GR posting status for POs.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Get the total count of entities in the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\",\"description\":\"S/4HANA Cost Center — look up responsible manager email.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenterText_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenterText_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcentertext_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenterText_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenter_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenter_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenter_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a collection of contained entities from the _CostCenterText contained entity set (accessed via navigation path: A_CostCenter_2 → _CostCenterText) in the sap_self service. Supports OData query options for filtering, sorting, and pagination.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a single contained entity by its key from the _CostCenterText contained entity set in the sap_self service. Provide all ancestor and entity key values to identify the specific entity.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Count the number of entities in the contained _CostCenterText entity set in the sap_self service. Optionally use $filter to count only entities matching specific criteria.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\",\"description\":\"Ariba Contract Terms Management — retrieve supplier contract terms.\",\"tools\":[{\"name\":\"getContractTermsId\",\"description\":\"This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]}]"
+            },
+            "id": "6b6c0a9b-be50-45bd-8607-9199c364a2f9",
+            "name": "Release Invoice - Auto",
+            "type": "CUSTOM.sapMcpClient",
+            "typeVersion": 1,
+            "position": [
+                1520,
+                -208
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "authentication": "microsoftEntraServicePrincipalApi",
+                "mailbox": {
+                    "__rl": true,
+                    "value": "eric.solberg@sap.com",
+                    "mode": "id"
+                },
+                "toRecipients": "ap-team@company.com",
+                "subject": "=Auto-Release Failed: Invoice {{ $('Assemble Enriched Invoice').item.json.invoice_id }}",
+                "bodyContent": "=Auto-release failed for invoice {{ $('Assemble Enriched Invoice').item.json.invoice_id }}.\n\nError: {{ $json.error }}\n\nPlease release manually.",
+                "additionalFields": {}
+            },
+            "id": "0603534f-6bed-475a-9711-4d179e396db7",
+            "name": "Email AP - Release Error",
+            "type": "n8n-nodes-base.microsoftOutlook",
+            "typeVersion": 2,
+            "position": [
+                1760,
+                -80
+            ],
+            "webhookId": "45f22140-3217-48b4-9f82-8b06788910a7",
+            "credentials": {
+                "microsoftEntraServicePrincipalApi": {
+                    "id": "a0TPSIn3S41ZH2ym",
+                    "name": "Microsoft Outlook for MN8n instance1|sap.microsoftoutlook.btpn8n"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "authentication": "microsoftEntraServicePrincipalApi",
+                "mailbox": {
+                    "__rl": true,
+                    "value": "eric.solberg@sap.com",
+                    "mode": "id"
+                },
+                "toRecipients": "={{ $('Assemble Enriched Invoice').item.json.manager_email }}",
+                "subject": "=Invoice Approval Required: {{ $('Assemble Enriched Invoice').item.json.invoice_id }}",
+                "bodyContent": "=Dear Manager,\n\nBlocked invoice {{ $('Assemble Enriched Invoice').item.json.invoice_id }} from vendor {{ $('Assemble Enriched Invoice').item.json.vendor_id }} requires your approval.\n\nAmount: {{ $('Assemble Enriched Invoice').item.json.invoice_amount }} {{ $('Assemble Enriched Invoice').item.json.currency }}\nPO: {{ $('Assemble Enriched Invoice').item.json.po_number }}\n\nAI Analysis: {{ $('Classify Invoice').item.json.response }}\n\nPlease review and approve or reject in SAP Task Center.",
+                "additionalFields": {}
+            },
+            "id": "53e47b8d-c75b-429d-88ea-66b56f8c10b7",
+            "name": "Email Cost Center Manager",
+            "type": "n8n-nodes-base.microsoftOutlook",
+            "typeVersion": 2,
+            "position": [
+                1520,
+                80
+            ],
+            "webhookId": "c863a236-850a-49c6-aeab-fb3055963f55",
+            "credentials": {
+                "microsoftEntraServicePrincipalApi": {
+                    "id": "a0TPSIn3S41ZH2ym",
+                    "name": "Microsoft Outlook for MN8n instance1|sap.microsoftoutlook.btpn8n"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "subject": "={{ 'Invoice Approval: ' + $('Assemble Enriched Invoice').item.json.invoice_id }}",
+                "recipients": {
+                    "recipientValues": [
+                        {
+                            "userId": "={{ $('Assemble Enriched Invoice').item.json.manager_email }}"
+                        }
+                    ]
+                },
+                "taskDefinition": {
+                    "definitionName": "Approve Invoice Release"
+                },
+                "customAttributeDefinitions": {
+                    "attributes": [
+                        {
+                            "value": "={{ $('Assemble Enriched Invoice').item.json.invoice_id }}",
+                            "code": "invoiceId",
+                            "name": "Invoice ID"
+                        },
+                        {
+                            "value": "={{ $('Assemble Enriched Invoice').item.json.invoice_amount }}",
+                            "code": "invoiceAmount",
+                            "name": "Invoice Amount"
+                        },
+                        {
+                            "value": "={{ $('Assemble Enriched Invoice').item.json.currency }}",
+                            "code": "currency",
+                            "name": "Currency"
+                        },
+                        {
+                            "value": "={{ $('Assemble Enriched Invoice').item.json.vendor_id }}",
+                            "code": "vendorId",
+                            "name": "Vendor ID"
+                        },
+                        {
+                            "value": "={{ $('Assemble Enriched Invoice').item.json.po_number }}",
+                            "code": "purchaseOrderNumber",
+                            "name": "Purchase Order Number"
+                        }
+                    ]
+                }
+            },
+            "id": "aecbbf29-1346-41c3-9a23-61d28fd1bd9e",
+            "name": "Approve Invoice Release",
+            "type": "CUSTOM.sapTaskCenter",
+            "typeVersion": 1,
+            "position": [
+                1760,
+                80
+            ],
+            "webhookId": "2e97c239-9eb6-4bde-9945-b9ad1e08bcf1",
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "authentication": "microsoftEntraServicePrincipalApi",
+                "mailbox": {
+                    "__rl": true,
+                    "value": "eric.solberg@sap.com",
+                    "mode": "id"
+                },
+                "toRecipients": "ap-team@company.com",
+                "subject": "=Task Center Failed: Invoice {{ $('Assemble Enriched Invoice').item.json.invoice_id }}",
+                "bodyContent": "=SAP Task Center approval task could not be created.\n\nInvoice: {{ $('Assemble Enriched Invoice').item.json.invoice_id }}\nError: {{ $json.error }}\n\nPlease handle manually.",
+                "additionalFields": {}
+            },
+            "id": "09fa7691-0ded-4799-9f4b-7b5b6120ae2a",
+            "name": "Email AP - Task Center Error",
+            "type": "n8n-nodes-base.microsoftOutlook",
+            "typeVersion": 2,
+            "position": [
+                2000,
+                304
+            ],
+            "webhookId": "12f32827-0349-4d46-9db0-24375fc768ab",
+            "credentials": {
+                "microsoftEntraServicePrincipalApi": {
+                    "id": "a0TPSIn3S41ZH2ym",
+                    "name": "Microsoft Outlook for MN8n instance1|sap.microsoftoutlook.btpn8n"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "rules": {
+                    "values": [
+                        {
+                            "conditions": {
+                                "options": {
+                                    "caseSensitive": true,
+                                    "leftValue": "",
+                                    "typeValidation": "strict",
+                                    "version": 3
+                                },
+                                "conditions": [
+                                    {
+                                        "id": "approved-check",
+                                        "leftValue": "={{ $json.result.response }}",
+                                        "rightValue": "approved",
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "equals"
+                                        }
+                                    }
+                                ],
+                                "combinator": "and"
+                            },
+                            "renameOutput": true,
+                            "outputKey": "approved"
+                        },
+                        {
+                            "conditions": {
+                                "options": {
+                                    "caseSensitive": true,
+                                    "leftValue": "",
+                                    "typeValidation": "strict",
+                                    "version": 3
+                                },
+                                "conditions": [
+                                    {
+                                        "id": "rejected-check",
+                                        "leftValue": "={{ $json.result.response }}",
+                                        "rightValue": "rejected",
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "equals"
+                                        }
+                                    }
+                                ],
+                                "combinator": "and"
+                            },
+                            "renameOutput": true,
+                            "outputKey": "rejected"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "b6cfee91-6f35-4017-916f-c2e4f253cce3",
+            "name": "Route Approval Decision",
+            "type": "n8n-nodes-base.switch",
+            "typeVersion": 3.4,
+            "position": [
+                2000,
+                80
+            ]
+        },
+        {
+            "parameters": {
+                "mcpServerName": "{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\"}",
+                "toolFromList": "{\"name\":\"function_release_for_api_supplierinvoice_process_srv\"}",
+                "toolArguments": "={{ JSON.stringify({ SupplierInvoice: $('Assemble Enriched Invoice').item.json.invoice_id, FiscalYear: $('Assemble Enriched Invoice').item.json.fiscal_year }) }}",
+                "additionalOptions": {
+                    "timeout": 30000,
+                    "includeMetadata": false
+                },
+                "mcpServers": "[{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-supplierinvoice-process-srv-mcp-server\",\"description\":\"S/4HANA Supplier Invoice — list blocked invoices, read details, release payment blocks.\",\"tools\":[{\"name\":\"get_metadata_api_supplierinvoice_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_supplierinvoice_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoice_for_api_supplierinvoice_process_srv\",\"description\":\"Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_supplierinvoiceitemglacct\",\"description\":\"Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_supplierinvoiceitemglacct\",\"description\":\"Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_to_supplierinvoiceitemglacct_in_a_supplierinvoice\",\"description\":\"Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"function_release_for_api_supplierinvoice_process_srv\",\"description\":\"OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1\",\"name\":\"sap-s4-api-purchaseorder-process-srv-mcp-server\",\"description\":\"S/4HANA Purchase Order — read PO header and line items.\",\"tools\":[{\"name\":\"get_metadata_api_purchaseorder_process_srv\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_api_purchaseorder_process_srv\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorder_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrder collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a list of entities from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Retrieve a single entity by its key from the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_purchaseorderitem_for_api_purchaseorder_process_srv\",\"description\":\"Get the total count of entities in the A_PurchaseOrderItem collection in the api_purchaseorder_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_purchaseorder_process_srv tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1\",\"name\":\"sap-s4-sspopenitmgoodsreceipt-0001-mcp-server\",\"description\":\"S/4HANA Goods Receipt — check GR posting status for POs.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_sspopenitemgoodsreceipt_for_sap_self\",\"description\":\"Get the total count of entities in the A_SSPOpenItemGoodsReceipt collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1\",\"name\":\"sap-s4-ce-costcenter-0001-mcp-server\",\"description\":\"S/4HANA Cost Center — look up responsible manager email.\",\"tools\":[{\"name\":\"get_metadata_sap_self\",\"description\":\"Get metadata of the OData service with optional filtering to reduce token consumption.\\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\\nBased on the metadata, you can dynamically create an OData request.\\n\\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\\nOnly use the specified enum values for the filtering parameters.\\n\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"batch_for_sap_self\",\"description\":\"Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenterText_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcentertext_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenterText_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcentertext_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenterText_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a list of entities from the A_CostCenter_2 collection in the sap_self service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2_for_sap_self\",\"description\":\"Retrieve a single entity by its key from the A_CostCenter_2 collection in the sap_self service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2_for_sap_self\",\"description\":\"Get the total count of entities in the A_CostCenter_2 collection in the sap_self service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_sap_self tool first to get the metadata.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"list_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a collection of contained entities from the _CostCenterText contained entity set (accessed via navigation path: A_CostCenter_2 → _CostCenterText) in the sap_self service. Supports OData query options for filtering, sorting, and pagination.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"get_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Retrieve a single contained entity by its key from the _CostCenterText contained entity set in the sap_self service. Provide all ancestor and entity key values to identify the specific entity.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}},{\"name\":\"count_a_costcenter_2__costcentertext_for_sap_self\",\"description\":\"Count the number of entities in the contained _CostCenterText entity set in the sap_self service. Optionally use $filter to count only entities matching specific criteria.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]},{\"ordId\":\"customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1\",\"name\":\"sap-aribas4-contract-terms-management-mcp-server\",\"description\":\"Ariba Contract Terms Management — retrieve supplier contract terms.\",\"tools\":[{\"name\":\"getContractTermsId\",\"description\":\"This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.\",\"inputSchema\":{\"type\":\"object\",\"properties\":{},\"required\":[]}}]}]"
+            },
+            "id": "d7eedec0-101a-4648-bdc9-36cb713c0f7e",
+            "name": "Release Approved Invoice",
+            "type": "CUSTOM.sapMcpClient",
+            "typeVersion": 1,
+            "position": [
+                2240,
+                -48
+            ],
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "authentication": "microsoftEntraServicePrincipalApi",
+                "mailbox": {
+                    "__rl": true,
+                    "value": "eric.solberg@sap.com",
+                    "mode": "id"
+                },
+                "toRecipients": "ap-team@company.com",
+                "subject": "=Invoice Rejected: {{ $('Assemble Enriched Invoice').item.json.invoice_id }}",
+                "bodyContent": "=The cost center manager rejected invoice {{ $('Assemble Enriched Invoice').item.json.invoice_id }}.\n\nVendor: {{ $('Assemble Enriched Invoice').item.json.vendor_id }}\nAmount: {{ $('Assemble Enriched Invoice').item.json.invoice_amount }} {{ $('Assemble Enriched Invoice').item.json.currency }}\nPO: {{ $('Assemble Enriched Invoice').item.json.po_number }}\n\nAI Classification: {{ $('Classify Invoice').item.json.response }}\n\nPlease review and take action.",
+                "additionalFields": {}
+            },
+            "id": "7a590c29-d76b-4979-b54a-0bb45238dd0a",
+            "name": "Email AP - Invoice Rejected",
+            "type": "n8n-nodes-base.microsoftOutlook",
+            "typeVersion": 2,
+            "position": [
+                2240,
+                208
+            ],
+            "webhookId": "54b34e99-0d96-4aa0-8710-e0b41cce2436",
+            "credentials": {
+                "microsoftEntraServicePrincipalApi": {
+                    "id": "a0TPSIn3S41ZH2ym",
+                    "name": "Microsoft Outlook for MN8n instance1|sap.microsoftoutlook.btpn8n"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "aggregate": "aggregateAllItemData",
+                "options": {}
+            },
+            "id": "d53ff6c6-39bf-45a0-98d9-eb058bfc00db",
+            "name": "Aggregate Results",
+            "type": "n8n-nodes-base.aggregate",
+            "typeVersion": 1,
+            "position": [
+                2512,
+                80
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ JSON.stringify({ status: 'completed', message: 'Daily blocked invoice run completed.' }) }}",
+                "options": {
+                    "responseCode": 200
+                }
+            },
+            "id": "4aba53fd-2698-4066-b879-c843a75b93a6",
+            "name": "Respond - Summary",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.5,
+            "position": [
+                2752,
+                80
+            ]
+        }
+    ],
+    "connections": {
+        "Blocked Invoice Daily Run": {
+            "main": [
+                [
+                    {
+                        "node": "Fetch Blocked Invoices",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Fetch Blocked Invoices": {
+            "main": [
+                [
+                    {
+                        "node": "Split Out Invoices",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Email AP - Fetch Failed",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Email AP - Fetch Failed": {
+            "main": [
+                [
+                    {
+                        "node": "Respond - Fetch Error",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Split Out Invoices": {
+            "main": [
+                [
+                    {
+                        "node": "Get Purchase Order",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Get Goods Receipt",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Get Cost Center Manager",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Get Ariba Contract Terms",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Purchase Order": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Flag PO Missing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Flag PO Missing": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Goods Receipt": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Flag GR Missing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Flag GR Missing": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Cost Center Manager": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Flag CC Missing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Flag CC Missing": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Ariba Contract Terms": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Flag Ariba Missing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Flag Ariba Missing": {
+            "main": [
+                [
+                    {
+                        "node": "Assemble Enriched Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Assemble Enriched Invoice": {
+            "main": [
+                [
+                    {
+                        "node": "Classify Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Classify Invoice": {
+            "main": [
+                [
+                    {
+                        "node": "Route by Variance",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Set Classification Error",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Classification Error": {
+            "main": [
+                [
+                    {
+                        "node": "Route by Variance",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Route by Variance": {
+            "main": [
+                [
+                    {
+                        "node": "Release Invoice - Auto",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Email Cost Center Manager",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Release Invoice - Auto": {
+            "main": [
+                [
+                    {
+                        "node": "Aggregate Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Email AP - Release Error",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Email AP - Release Error": {
+            "main": [
+                [
+                    {
+                        "node": "Aggregate Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Email Cost Center Manager": {
+            "main": [
+                [
+                    {
+                        "node": "Approve Invoice Release",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Approve Invoice Release": {
+            "main": [
+                [
+                    {
+                        "node": "Route Approval Decision",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Email AP - Task Center Error",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Email AP - Task Center Error": {
+            "main": [
+                [
+                    {
+                        "node": "Aggregate Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Route Approval Decision": {
+            "main": [
+                [
+                    {
+                        "node": "Release Approved Invoice",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Email AP - Invoice Rejected",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Release Approved Invoice": {
+            "main": [
+                [
+                    {
+                        "node": "Aggregate Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Aggregate Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Email AP - Invoice Rejected": {
+            "main": [
+                [
+                    {
+                        "node": "Aggregate Results",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Aggregate Results": {
+            "main": [
+                [
+                    {
+                        "node": "Respond - Summary",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1",
+        "binaryMode": "separate"
+    },
+    "pinData": {
+        "Fetch Blocked Invoices": [
+            {
+                "json": {
+                    "success": true,
+                    "requestId": "req-test-001",
+                    "tool": "list_a_supplierinvoice_for_api_supplierinvoice_process_srv",
+                    "mcpServer": {
+                        "name": "sap-s4-api-supplierinvoice-process-srv-mcp-server",
+                        "ordId": "customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1",
+                        "globalTenantId": null
+                    },
+                    "result": {
+                        "isError": false,
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Retrieved 2 blocked invoices"
+                            }
+                        ],
+                        "structuredContent": {
+                            "results": [
+                                {
+                                    "SupplierInvoice": "5100000001",
+                                    "FiscalYear": "2026",
+                                    "InvoiceGrossAmount": "1050.00",
+                                    "DocumentCurrency": "EUR",
+                                    "InvoicingParty": "VENDOR-0042",
+                                    "PurchaseOrder": "4500012345",
+                                    "PaymentBlockingReason": "R"
+                                }
+                            ]
+                        }
+                    },
+                    "timestamp": "2026-11-04T08:00:00Z"
+                }
+            }
+        ],
+        "Classify Invoice": [
+            {
+                "json": {
+                    "success": true,
+                    "agentName": "blocked-invoice-resolution-agent",
+                    "ordId": "customer.build:agent:blocked-invoice-resolution-ffdbb.blocked-invoice-resolution-agent:v1",
+                    "globalTenantId": null,
+                    "messageId": "msg-test-001",
+                    "sessionId": "5100000001",
+                    "blocking": true,
+                    "response": "{\"invoice_id\":\"5100000001\",\"block_reason\":\"price_variance\",\"variance_pct\":5.0,\"recommended_action\":\"escalate\",\"supporting_evidence\":[\"Invoice 1050.00 EUR vs PO 1000.00 EUR\"],\"confidence\":\"high\"}",
+                    "timestamp": "2026-11-04T08:00:05Z"
+                }
+            }
+        ],
+        "Approve Invoice Release": [
+            {
+                "json": {
+                    "result": {
+                        "response": "approved",
+                        "respondedAt": "2026-11-04T10:30:00Z"
+                    }
+                }
+            }
+        ]
+    }
+}

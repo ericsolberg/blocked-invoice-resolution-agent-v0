@@ -1,0 +1,5989 @@
+[
+  {
+    "name": "get_metadata_api_supplierinvoice_process_srv",
+    "title": "get_metadata_api_supplierinvoice_process_srv",
+    "description": "Get metadata of the OData service with optional filtering to reduce token consumption.\nReturns the metadata in XML format, which can be used to discover available entities and their properties.\nCall this endpoint every time before you call other tools to ensure understanding of the schema.\nBased on the metadata, you can dynamically create an OData request.\n\nUse filtering parameters to get specific metadata sections. Without parameters, this tool returns the complete XML metadata (which might be huge).\nOnly use the specified enum values for the filtering parameters.\n",
+    "odataType": {
+      "metadataRequest": {},
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "batch_for_api_supplierinvoice_process_srv",
+    "title": "batch_for_api_supplierinvoice_process_srv",
+    "description": "Execute multiple OData operations in a single batch request using the $batch endpoint. This allows you to combine multiple tool calls into one HTTP request, improving efficiency when performing multiple operations.",
+    "odataType": {
+      "batchRequest": {},
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "list_a_br_supplierinvoicenfdocument",
+    "title": "list_A_BR_SupplierInvoiceNFDocument_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_BR_SupplierInvoiceNFDocument collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_BR_SupplierInvoiceNFDocument",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_br_supplierinvoicenfdocument",
+    "title": "get_A_BR_SupplierInvoiceNFDocument_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_BR_SupplierInvoiceNFDocument collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_BR_SupplierInvoiceNFDocument",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_br_supplierinvoicenfdocument",
+    "title": "count_A_BR_SupplierInvoiceNFDocument_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_BR_SupplierInvoiceNFDocument collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_BR_SupplierInvoiceNFDocument",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_suplrinvcheaderwhldgtax",
+    "title": "list_A_SuplrInvcHeaderWhldgTax_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SuplrInvcHeaderWhldgTax collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcHeaderWhldgTax",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_suplrinvcheaderwhldgtax",
+    "title": "get_A_SuplrInvcHeaderWhldgTax_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SuplrInvcHeaderWhldgTax collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcHeaderWhldgTax",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "WithholdingTaxType",
+            "newParameterName": "withholdingtaxtype"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_suplrinvcheaderwhldgtax",
+    "title": "count_A_SuplrInvcHeaderWhldgTax_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SuplrInvcHeaderWhldgTax collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcHeaderWhldgTax",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_suplrinvcitemacctassgmt",
+    "title": "list_A_SuplrInvcItemAcctAssgmt_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SuplrInvcItemAcctAssgmt collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemAcctAssgmt",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_suplrinvcitemacctassgmt",
+    "title": "get_A_SuplrInvcItemAcctAssgmt_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SuplrInvcItemAcctAssgmt collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemAcctAssgmt",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoiceItem",
+            "newParameterName": "supplierinvoiceitem"
+          },
+          {
+            "name": "OrdinalNumber",
+            "newParameterName": "ordinalnumber"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_suplrinvcitemacctassgmt",
+    "title": "count_A_SuplrInvcItemAcctAssgmt_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SuplrInvcItemAcctAssgmt collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemAcctAssgmt",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_suplrinvcitempurordref",
+    "title": "list_A_SuplrInvcItemPurOrdRef_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SuplrInvcItemPurOrdRef collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemPurOrdRef",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_suplrinvcitempurordref_for_api_supplierinvoice_process_srv",
+    "title": "get_A_SuplrInvcItemPurOrdRef_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SuplrInvcItemPurOrdRef collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemPurOrdRef",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoiceItem",
+            "newParameterName": "supplierinvoiceitem"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_suplrinvcitempurordref",
+    "title": "count_A_SuplrInvcItemPurOrdRef_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SuplrInvcItemPurOrdRef collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemPurOrdRef",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_suplrinvcseldinbdeliverynote",
+    "title": "list_A_SuplrInvcSeldInbDeliveryNote_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SuplrInvcSeldInbDeliveryNote collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldInbDeliveryNote",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_suplrinvcseldinbdeliverynote",
+    "title": "get_A_SuplrInvcSeldInbDeliveryNote_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SuplrInvcSeldInbDeliveryNote collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldInbDeliveryNote",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "InboundDeliveryNote",
+            "newParameterName": "inbounddeliverynote"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_suplrinvcseldinbdeliverynote",
+    "title": "count_A_SuplrInvcSeldInbDeliveryNote_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SuplrInvcSeldInbDeliveryNote collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldInbDeliveryNote",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_suplrinvcseldpurgdocument",
+    "title": "list_A_SuplrInvcSeldPurgDocument_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SuplrInvcSeldPurgDocument collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldPurgDocument",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_suplrinvcseldpurgdocument",
+    "title": "get_A_SuplrInvcSeldPurgDocument_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SuplrInvcSeldPurgDocument collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldPurgDocument",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "PurchaseOrder",
+            "newParameterName": "purchaseorder"
+          },
+          {
+            "name": "PurchaseOrderItem",
+            "newParameterName": "purchaseorderitem"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_suplrinvcseldpurgdocument",
+    "title": "count_A_SuplrInvcSeldPurgDocument_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SuplrInvcSeldPurgDocument collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldPurgDocument",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_suplrinvcseldsrvcentrshtlean",
+    "title": "list_A_SuplrInvcSeldSrvcEntrShtLean_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SuplrInvcSeldSrvcEntrShtLean collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldSrvcEntrShtLean",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_suplrinvcseldsrvcentrshtlean",
+    "title": "get_A_SuplrInvcSeldSrvcEntrShtLean_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SuplrInvcSeldSrvcEntrShtLean collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldSrvcEntrShtLean",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "ServiceEntrySheet",
+            "newParameterName": "serviceentrysheet"
+          },
+          {
+            "name": "ServiceEntrySheetItem",
+            "newParameterName": "serviceentrysheetitem"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_suplrinvcseldsrvcentrshtlean",
+    "title": "count_A_SuplrInvcSeldSrvcEntrShtLean_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SuplrInvcSeldSrvcEntrShtLean collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcSeldSrvcEntrShtLean",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_suplrinvoiceadditionaldata",
+    "title": "list_A_SuplrInvoiceAdditionalData_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SuplrInvoiceAdditionalData collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvoiceAdditionalData",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_suplrinvoiceadditionaldata",
+    "title": "get_A_SuplrInvoiceAdditionalData_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SuplrInvoiceAdditionalData collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvoiceAdditionalData",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_suplrinvoiceadditionaldata",
+    "title": "count_A_SuplrInvoiceAdditionalData_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SuplrInvoiceAdditionalData collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvoiceAdditionalData",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_supplierinvoice_for_api_supplierinvoice_process_srv",
+    "title": "list_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "create_a_supplierinvoice_for_api_supplierinvoice_process_srv",
+    "title": "create_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Create a new instance of the A_SupplierInvoice EntitySet in the api_supplierinvoice_process_srv service. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "crudOperation": "create",
+        "parameters": [
+          {
+            "name": "CompanyCode",
+            "newParameterName": "companycode"
+          },
+          {
+            "name": "DocumentDate",
+            "newParameterName": "documentdate"
+          },
+          {
+            "name": "PostingDate",
+            "newParameterName": "postingdate"
+          },
+          {
+            "name": "SupplierInvoiceIDByInvcgParty",
+            "newParameterName": "supplierinvoiceidbyinvcgparty"
+          },
+          {
+            "name": "InvoicingParty",
+            "newParameterName": "invoicingparty"
+          },
+          {
+            "name": "DocumentCurrency",
+            "newParameterName": "documentcurrency"
+          },
+          {
+            "name": "InvoiceGrossAmount",
+            "newParameterName": "invoicegrossamount"
+          },
+          {
+            "name": "UnplannedDeliveryCost",
+            "newParameterName": "unplanneddeliverycost"
+          },
+          {
+            "name": "DocumentHeaderText",
+            "newParameterName": "documentheadertext"
+          },
+          {
+            "name": "ReconciliationAccount",
+            "newParameterName": "reconciliationaccount"
+          },
+          {
+            "name": "ManualCashDiscount",
+            "newParameterName": "manualcashdiscount"
+          },
+          {
+            "name": "PaymentTerms",
+            "newParameterName": "paymentterms"
+          },
+          {
+            "name": "DueCalculationBaseDate",
+            "newParameterName": "duecalculationbasedate"
+          },
+          {
+            "name": "CashDiscount1Percent",
+            "newParameterName": "cashdiscount1percent"
+          },
+          {
+            "name": "CashDiscount1Days",
+            "newParameterName": "cashdiscount1days"
+          },
+          {
+            "name": "CashDiscount2Percent",
+            "newParameterName": "cashdiscount2percent"
+          },
+          {
+            "name": "CashDiscount2Days",
+            "newParameterName": "cashdiscount2days"
+          },
+          {
+            "name": "NetPaymentDays",
+            "newParameterName": "netpaymentdays"
+          },
+          {
+            "name": "PaymentBlockingReason",
+            "newParameterName": "paymentblockingreason"
+          },
+          {
+            "name": "AccountingDocumentType",
+            "newParameterName": "accountingdocumenttype"
+          },
+          {
+            "name": "BPBankAccountInternalID",
+            "newParameterName": "bpbankaccountinternalid"
+          },
+          {
+            "name": "SupplierInvoiceStatus",
+            "newParameterName": "supplierinvoicestatus"
+          },
+          {
+            "name": "IndirectQuotedExchangeRate",
+            "newParameterName": "indirectquotedexchangerate"
+          },
+          {
+            "name": "DirectQuotedExchangeRate",
+            "newParameterName": "directquotedexchangerate"
+          },
+          {
+            "name": "StateCentralBankPaymentReason",
+            "newParameterName": "statecentralbankpaymentreason"
+          },
+          {
+            "name": "SupplyingCountry",
+            "newParameterName": "supplyingcountry"
+          },
+          {
+            "name": "PaymentMethod",
+            "newParameterName": "paymentmethod"
+          },
+          {
+            "name": "PaymentMethodSupplement",
+            "newParameterName": "paymentmethodsupplement"
+          },
+          {
+            "name": "PaymentReference",
+            "newParameterName": "paymentreference"
+          },
+          {
+            "name": "InvoiceReference",
+            "newParameterName": "invoicereference"
+          },
+          {
+            "name": "InvoiceReferenceFiscalYear",
+            "newParameterName": "invoicereferencefiscalyear"
+          },
+          {
+            "name": "FixedCashDiscount",
+            "newParameterName": "fixedcashdiscount"
+          },
+          {
+            "name": "UnplannedDeliveryCostTaxCode",
+            "newParameterName": "unplanneddeliverycosttaxcode"
+          },
+          {
+            "name": "UnplndDelivCostTaxJurisdiction",
+            "newParameterName": "unplnddelivcosttaxjurisdiction"
+          },
+          {
+            "name": "UnplndDeliveryCostTaxCountry",
+            "newParameterName": "unplnddeliverycosttaxcountry"
+          },
+          {
+            "name": "AssignmentReference",
+            "newParameterName": "assignmentreference"
+          },
+          {
+            "name": "SupplierPostingLineItemText",
+            "newParameterName": "supplierpostinglineitemtext"
+          },
+          {
+            "name": "TaxIsCalculatedAutomatically",
+            "newParameterName": "taxiscalculatedautomatically"
+          },
+          {
+            "name": "BusinessPlace",
+            "newParameterName": "businessplace"
+          },
+          {
+            "name": "BusinessSectionCode",
+            "newParameterName": "businesssectioncode"
+          },
+          {
+            "name": "BusinessArea",
+            "newParameterName": "businessarea"
+          },
+          {
+            "name": "SuplrInvcIsCapitalGoodsRelated",
+            "newParameterName": "suplrinvciscapitalgoodsrelated"
+          },
+          {
+            "name": "SupplierInvoiceIsCreditMemo",
+            "newParameterName": "supplierinvoiceiscreditmemo"
+          },
+          {
+            "name": "PaytSlipWthRefSubscriber",
+            "newParameterName": "paytslipwthrefsubscriber"
+          },
+          {
+            "name": "PaytSlipWthRefCheckDigit",
+            "newParameterName": "paytslipwthrefcheckdigit"
+          },
+          {
+            "name": "PaytSlipWthRefReference",
+            "newParameterName": "paytslipwthrefreference"
+          },
+          {
+            "name": "TaxDeterminationDate",
+            "newParameterName": "taxdeterminationdate"
+          },
+          {
+            "name": "TaxReportingDate",
+            "newParameterName": "taxreportingdate"
+          },
+          {
+            "name": "TaxFulfillmentDate",
+            "newParameterName": "taxfulfillmentdate"
+          },
+          {
+            "name": "InvoiceReceiptDate",
+            "newParameterName": "invoicereceiptdate"
+          },
+          {
+            "name": "DeliveryOfGoodsReportingCntry",
+            "newParameterName": "deliveryofgoodsreportingcntry"
+          },
+          {
+            "name": "SupplierVATRegistration",
+            "newParameterName": "suppliervatregistration"
+          },
+          {
+            "name": "IsEUTriangularDeal",
+            "newParameterName": "iseutriangulardeal"
+          },
+          {
+            "name": "SuplrInvcDebitCrdtCodeDelivery",
+            "newParameterName": "suplrinvcdebitcrdtcodedelivery"
+          },
+          {
+            "name": "SuplrInvcDebitCrdtCodeReturns",
+            "newParameterName": "suplrinvcdebitcrdtcodereturns"
+          },
+          {
+            "name": "RetentionDueDate",
+            "newParameterName": "retentionduedate"
+          },
+          {
+            "name": "PaymentReason",
+            "newParameterName": "paymentreason"
+          },
+          {
+            "name": "HouseBank",
+            "newParameterName": "housebank"
+          },
+          {
+            "name": "HouseBankAccount",
+            "newParameterName": "housebankaccount"
+          },
+          {
+            "name": "AlternativePayeePayer",
+            "newParameterName": "alternativepayeepayer"
+          },
+          {
+            "name": "IN_GSTPartner",
+            "newParameterName": "in_gstpartner"
+          },
+          {
+            "name": "IN_GSTPlaceOfSupply",
+            "newParameterName": "in_gstplaceofsupply"
+          },
+          {
+            "name": "IN_InvoiceReferenceNumber",
+            "newParameterName": "in_invoicereferencenumber"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificRef1",
+            "newParameterName": "jrnlentrycntryspecificref1"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificDate1",
+            "newParameterName": "jrnlentrycntryspecificdate1"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificRef2",
+            "newParameterName": "jrnlentrycntryspecificref2"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificDate2",
+            "newParameterName": "jrnlentrycntryspecificdate2"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificRef3",
+            "newParameterName": "jrnlentrycntryspecificref3"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificDate3",
+            "newParameterName": "jrnlentrycntryspecificdate3"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificRef4",
+            "newParameterName": "jrnlentrycntryspecificref4"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificDate4",
+            "newParameterName": "jrnlentrycntryspecificdate4"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificRef5",
+            "newParameterName": "jrnlentrycntryspecificref5"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificDate5",
+            "newParameterName": "jrnlentrycntryspecificdate5"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificBP1",
+            "newParameterName": "jrnlentrycntryspecificbp1"
+          },
+          {
+            "name": "JrnlEntryCntrySpecificBP2",
+            "newParameterName": "jrnlentrycntryspecificbp2"
+          },
+          {
+            "name": "to_BR_SupplierInvoiceNFDocument",
+            "newParameterName": "to_br_supplierinvoicenfdocument"
+          },
+          {
+            "name": "to_SelectedDeliveryNotes",
+            "newParameterName": "to_selecteddeliverynotes"
+          },
+          {
+            "name": "to_SelectedPurchaseOrders",
+            "newParameterName": "to_selectedpurchaseorders"
+          },
+          {
+            "name": "to_SelectedServiceEntrySheets",
+            "newParameterName": "to_selectedserviceentrysheets"
+          },
+          {
+            "name": "to_SuplrInvcItemAsset",
+            "newParameterName": "to_suplrinvcitemasset"
+          },
+          {
+            "name": "to_SuplrInvcItemMaterial",
+            "newParameterName": "to_suplrinvcitemmaterial"
+          },
+          {
+            "name": "to_SuplrInvcItemPurOrdRef",
+            "newParameterName": "to_suplrinvcitempurordref"
+          },
+          {
+            "name": "to_SuplrInvoiceAdditionalData",
+            "newParameterName": "to_suplrinvoiceadditionaldata"
+          },
+          {
+            "name": "to_SupplierInvoiceItemGLAcct",
+            "newParameterName": "to_supplierinvoiceitemglacct"
+          },
+          {
+            "name": "to_SupplierInvoiceODN",
+            "newParameterName": "to_supplierinvoiceodn"
+          },
+          {
+            "name": "to_SupplierInvoiceTax",
+            "newParameterName": "to_supplierinvoicetax"
+          },
+          {
+            "name": "to_SupplierInvoiceWhldgTax",
+            "newParameterName": "to_supplierinvoicewhldgtax"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "location"
+        },
+        {
+          "name": "content-id"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "delete_a_supplierinvoice_for_api_supplierinvoice_process_srv",
+    "title": "delete_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Delete an entity from A_SupplierInvoice EntitySet in the api_supplierinvoice_process_srv service.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "crudOperation": "delete",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "get_a_supplierinvoice_for_api_supplierinvoice_process_srv",
+    "title": "get_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_supplierinvoice_for_api_supplierinvoice_process_srv",
+    "title": "count_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SupplierInvoice collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_supplierinvoiceitemasset",
+    "title": "list_A_SupplierInvoiceItemAsset_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SupplierInvoiceItemAsset collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemAsset",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_supplierinvoiceitemasset",
+    "title": "get_A_SupplierInvoiceItemAsset_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SupplierInvoiceItemAsset collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemAsset",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoiceItem",
+            "newParameterName": "supplierinvoiceitem"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_supplierinvoiceitemasset",
+    "title": "count_A_SupplierInvoiceItemAsset_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SupplierInvoiceItemAsset collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemAsset",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_supplierinvoiceitemglacct",
+    "title": "list_A_SupplierInvoiceItemGLAcct_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemGLAcct",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_supplierinvoiceitemglacct",
+    "title": "get_A_SupplierInvoiceItemGLAcct_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemGLAcct",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoiceItem",
+            "newParameterName": "supplierinvoiceitem"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_supplierinvoiceitemglacct",
+    "title": "count_A_SupplierInvoiceItemGLAcct_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SupplierInvoiceItemGLAcct collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemGLAcct",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_supplierinvoiceitemmaterial",
+    "title": "list_A_SupplierInvoiceItemMaterial_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SupplierInvoiceItemMaterial collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemMaterial",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_supplierinvoiceitemmaterial",
+    "title": "get_A_SupplierInvoiceItemMaterial_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SupplierInvoiceItemMaterial collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemMaterial",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoiceItem",
+            "newParameterName": "supplierinvoiceitem"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_supplierinvoiceitemmaterial",
+    "title": "count_A_SupplierInvoiceItemMaterial_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SupplierInvoiceItemMaterial collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceItemMaterial",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_supplierinvoiceodn_for_api_supplierinvoice_process_srv",
+    "title": "list_A_SupplierInvoiceODN_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SupplierInvoiceODN collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceODN",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_supplierinvoiceodn_for_api_supplierinvoice_process_srv",
+    "title": "get_A_SupplierInvoiceODN_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SupplierInvoiceODN collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceODN",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "AFDFUniqueKeyUUID",
+            "newParameterName": "afdfuniquekeyuuid"
+          },
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_supplierinvoiceodn_for_api_supplierinvoice_process_srv",
+    "title": "count_A_SupplierInvoiceODN_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SupplierInvoiceODN collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceODN",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_a_supplierinvoicetax_for_api_supplierinvoice_process_srv",
+    "title": "list_A_SupplierInvoiceTax_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a list of entities from the A_SupplierInvoiceTax collection in the api_supplierinvoice_process_srv service. Supports OData query options for filtering, sorting, ranking ($top), skipping ($skip), expanding related entities, counting, selecting specific properties. Only use attributes in the query options that are specified in the metadata. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceTax",
+        "crudOperation": "read",
+        "parameters": [
+          {
+            "name": "filter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "orderby"
+          },
+          {
+            "name": "top"
+          },
+          {
+            "name": "skip"
+          },
+          {
+            "name": "expand"
+          },
+          {
+            "name": "inlinecount"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_a_supplierinvoicetax_for_api_supplierinvoice_process_srv",
+    "title": "get_A_SupplierInvoiceTax_for_api_supplierinvoice_process_srv",
+    "description": "Retrieve a single entity by its key from the A_SupplierInvoiceTax collection in the api_supplierinvoice_process_srv service. Provide the key property value(s) to identify the specific entity to retrieve. Supports OData query options for selecting specific properties ($select), expanding related entities ($expand). If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceTax",
+        "crudOperation": "readByKey",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "TaxCode",
+            "newParameterName": "taxcode"
+          },
+          {
+            "name": "SupplierInvoiceTaxCounter",
+            "newParameterName": "supplierinvoicetaxcounter"
+          },
+          {
+            "name": "select"
+          },
+          {
+            "name": "expand"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_a_supplierinvoicetax_for_api_supplierinvoice_process_srv",
+    "title": "count_A_SupplierInvoiceTax_for_api_supplierinvoice_process_srv",
+    "description": "Get the total count of entities in the A_SupplierInvoiceTax collection in the api_supplierinvoice_process_srv service. Supports OData $filter to count only entities matching specific criteria. Use this when you need to determine the total number of entities without retrieving the actual data. If you need to understand the available filter properties, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoiceTax",
+        "crudOperation": "count",
+        "parameters": [
+          {
+            "name": "filter"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_supplierinvoiceitmacctassgmt_in_a_suplrinvcitempurordref",
+    "title": "list_to_SupplierInvoiceItmAcctAssgmt_in_A_SuplrInvcItemPurOrdRef_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SuplrInvcItemPurOrdRef to related A_SuplrInvcItemAcctAssgmtType entities via the 'to_SupplierInvoiceItmAcctAssgmt' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemPurOrdRef",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceItmAcctAssgmt",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoiceItem",
+            "newParameterName": "supplierinvoiceitem"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_supplierinvoiceitmacctassgmt_in_a_suplrinvcitempurordre",
+    "title": "count_to_SupplierInvoiceItmAcctAssgmt_in_A_SuplrInvcItemPurOrdRef_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SuplrInvcItemAcctAssgmtType entities accessible via the 'to_SupplierInvoiceItmAcctAssgmt' navigation property of A_SuplrInvcItemPurOrdRef in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SuplrInvcItemPurOrdRef",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceItmAcctAssgmt",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoiceItem",
+            "newParameterName": "supplierinvoiceitem"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_to_br_supplierinvoicenfdocument_in_a_supplierinvoice",
+    "title": "get_to_BR_SupplierInvoiceNFDocument_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to the related A_BR_SupplierInvoiceNFDocumentType entity via the 'to_BR_SupplierInvoiceNFDocument' navigation property. Supports $select and $expand query options. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_BR_SupplierInvoiceNFDocument",
+          "crudOperation": "readByKey",
+          "parameters": [
+            {
+              "name": "select"
+            },
+            {
+              "name": "expand"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "update_to_br_supplierinvoicenfdocument_in_a_supplierinvoice",
+    "title": "update_to_BR_SupplierInvoiceNFDocument_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Update the A_BR_SupplierInvoiceNFDocumentType entity navigated from A_SupplierInvoice via the 'to_BR_SupplierInvoiceNFDocument' navigation property (HTTP PATCH). Provide the parent key and the properties to update. If the structure is unknown, call get_metadata_api_supplierinvoice_process_srv tool first.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_BR_SupplierInvoiceNFDocument",
+          "crudOperation": "update",
+          "parameters": [
+            {
+              "name": "BR_NFType",
+              "newParameterName": "br_nftype"
+            },
+            {
+              "name": "BR_NFSNumber",
+              "newParameterName": "br_nfsnumber"
+            },
+            {
+              "name": "BR_NFSVerificationCode",
+              "newParameterName": "br_nfsverificationcode"
+            },
+            {
+              "name": "BR_NFAuthznProtocolNumber",
+              "newParameterName": "br_nfauthznprotocolnumber"
+            },
+            {
+              "name": "BR_NFAuthznProtocolNumber16",
+              "newParameterName": "br_nfauthznprotocolnumber16"
+            },
+            {
+              "name": "BR_NFAuthenticationDate",
+              "newParameterName": "br_nfauthenticationdate"
+            },
+            {
+              "name": "BR_NFAuthenticationTime",
+              "newParameterName": "br_nfauthenticationtime"
+            },
+            {
+              "name": "BR_NFeRandomNumber",
+              "newParameterName": "br_nferandomnumber"
+            },
+            {
+              "name": "IssuingType",
+              "newParameterName": "issuingtype"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "list_to_selecteddeliverynotes_in_a_supplierinvoice",
+    "title": "list_to_SelectedDeliveryNotes_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SuplrInvcSeldInbDeliveryNoteType entities via the 'to_SelectedDeliveryNotes' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SelectedDeliveryNotes",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_selecteddeliverynotes_in_a_supplierinvoice",
+    "title": "count_to_SelectedDeliveryNotes_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SuplrInvcSeldInbDeliveryNoteType entities accessible via the 'to_SelectedDeliveryNotes' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SelectedDeliveryNotes",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_selectedpurchaseorders_in_a_supplierinvoice",
+    "title": "list_to_SelectedPurchaseOrders_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SuplrInvcSeldPurgDocumentType entities via the 'to_SelectedPurchaseOrders' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SelectedPurchaseOrders",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_selectedpurchaseorders_in_a_supplierinvoice",
+    "title": "count_to_SelectedPurchaseOrders_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SuplrInvcSeldPurgDocumentType entities accessible via the 'to_SelectedPurchaseOrders' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SelectedPurchaseOrders",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_selectedserviceentrysheets_in_a_supplierinvoice",
+    "title": "list_to_SelectedServiceEntrySheets_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SuplrInvcSeldSrvcEntrShtLeanType entities via the 'to_SelectedServiceEntrySheets' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SelectedServiceEntrySheets",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_selectedserviceentrysheets_in_a_supplierinvoice",
+    "title": "count_to_SelectedServiceEntrySheets_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SuplrInvcSeldSrvcEntrShtLeanType entities accessible via the 'to_SelectedServiceEntrySheets' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SelectedServiceEntrySheets",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_suplrinvcitemasset_in_a_supplierinvoice",
+    "title": "list_to_SuplrInvcItemAsset_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemAssetType entities via the 'to_SuplrInvcItemAsset' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvcItemAsset",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_suplrinvcitemasset_in_a_supplierinvoice",
+    "title": "count_to_SuplrInvcItemAsset_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SupplierInvoiceItemAssetType entities accessible via the 'to_SuplrInvcItemAsset' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvcItemAsset",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_suplrinvcitemmaterial_in_a_supplierinvoice",
+    "title": "list_to_SuplrInvcItemMaterial_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemMaterialType entities via the 'to_SuplrInvcItemMaterial' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvcItemMaterial",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_suplrinvcitemmaterial_in_a_supplierinvoice",
+    "title": "count_to_SuplrInvcItemMaterial_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SupplierInvoiceItemMaterialType entities accessible via the 'to_SuplrInvcItemMaterial' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvcItemMaterial",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_suplrinvcitempurordref_in_a_supplierinvoice",
+    "title": "list_to_SuplrInvcItemPurOrdRef_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SuplrInvcItemPurOrdRefType entities via the 'to_SuplrInvcItemPurOrdRef' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvcItemPurOrdRef",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_suplrinvcitempurordref_in_a_supplierinvoice",
+    "title": "count_to_SuplrInvcItemPurOrdRef_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SuplrInvcItemPurOrdRefType entities accessible via the 'to_SuplrInvcItemPurOrdRef' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvcItemPurOrdRef",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "get_to_suplrinvoiceadditionaldata_in_a_supplierinvoice",
+    "title": "get_to_SuplrInvoiceAdditionalData_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to the related A_SuplrInvoiceAdditionalDataType entity via the 'to_SuplrInvoiceAdditionalData' navigation property. Supports $select and $expand query options. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvoiceAdditionalData",
+          "crudOperation": "readByKey",
+          "parameters": [
+            {
+              "name": "select"
+            },
+            {
+              "name": "expand"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "update_to_suplrinvoiceadditionaldata_in_a_supplierinvoice",
+    "title": "update_to_SuplrInvoiceAdditionalData_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Update the A_SuplrInvoiceAdditionalDataType entity navigated from A_SupplierInvoice via the 'to_SuplrInvoiceAdditionalData' navigation property (HTTP PATCH). Provide the parent key and the properties to update. If the structure is unknown, call get_metadata_api_supplierinvoice_process_srv tool first.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SuplrInvoiceAdditionalData",
+          "crudOperation": "update",
+          "parameters": [
+            {
+              "name": "InvoicingPartyName1",
+              "newParameterName": "invoicingpartyname1"
+            },
+            {
+              "name": "InvoicingPartyName2",
+              "newParameterName": "invoicingpartyname2"
+            },
+            {
+              "name": "InvoicingPartyName3",
+              "newParameterName": "invoicingpartyname3"
+            },
+            {
+              "name": "InvoicingPartyName4",
+              "newParameterName": "invoicingpartyname4"
+            },
+            {
+              "name": "PostalCode",
+              "newParameterName": "postalcode"
+            },
+            {
+              "name": "CityName",
+              "newParameterName": "cityname"
+            },
+            {
+              "name": "Country",
+              "newParameterName": "country"
+            },
+            {
+              "name": "StreetAddressName",
+              "newParameterName": "streetaddressname"
+            },
+            {
+              "name": "POBox",
+              "newParameterName": "pobox"
+            },
+            {
+              "name": "POBoxPostalCode",
+              "newParameterName": "poboxpostalcode"
+            },
+            {
+              "name": "PostOfficeBankAccount",
+              "newParameterName": "postofficebankaccount"
+            },
+            {
+              "name": "BankAccount",
+              "newParameterName": "bankaccount"
+            },
+            {
+              "name": "Bank",
+              "newParameterName": "bank"
+            },
+            {
+              "name": "BankCountry",
+              "newParameterName": "bankcountry"
+            },
+            {
+              "name": "TaxID1",
+              "newParameterName": "taxid1"
+            },
+            {
+              "name": "TaxID2",
+              "newParameterName": "taxid2"
+            },
+            {
+              "name": "TaxID3",
+              "newParameterName": "taxid3"
+            },
+            {
+              "name": "TaxID4",
+              "newParameterName": "taxid4"
+            },
+            {
+              "name": "TaxID5",
+              "newParameterName": "taxid5"
+            },
+            {
+              "name": "OneTmeAccountIsVATLiable",
+              "newParameterName": "onetmeaccountisvatliable"
+            },
+            {
+              "name": "OneTmeAcctIsEqualizationTxSubj",
+              "newParameterName": "onetmeacctisequalizationtxsubj"
+            },
+            {
+              "name": "Region",
+              "newParameterName": "region"
+            },
+            {
+              "name": "BankControlKey",
+              "newParameterName": "bankcontrolkey"
+            },
+            {
+              "name": "DataExchangeInstructionKey",
+              "newParameterName": "dataexchangeinstructionkey"
+            },
+            {
+              "name": "DataMediumExchangeIndicator",
+              "newParameterName": "datamediumexchangeindicator"
+            },
+            {
+              "name": "LanguageCode",
+              "newParameterName": "languagecode"
+            },
+            {
+              "name": "IsOneTimeAccount",
+              "newParameterName": "isonetimeaccount"
+            },
+            {
+              "name": "PaymentRecipient",
+              "newParameterName": "paymentrecipient"
+            },
+            {
+              "name": "AccountTaxType",
+              "newParameterName": "accounttaxtype"
+            },
+            {
+              "name": "TaxNumberType",
+              "newParameterName": "taxnumbertype"
+            },
+            {
+              "name": "IsNaturalPerson",
+              "newParameterName": "isnaturalperson"
+            },
+            {
+              "name": "BankDetailReference",
+              "newParameterName": "bankdetailreference"
+            },
+            {
+              "name": "RepresentativeName",
+              "newParameterName": "representativename"
+            },
+            {
+              "name": "BusinessType",
+              "newParameterName": "businesstype"
+            },
+            {
+              "name": "IndustryType",
+              "newParameterName": "industrytype"
+            },
+            {
+              "name": "FormOfAddressName",
+              "newParameterName": "formofaddressname"
+            },
+            {
+              "name": "VATRegistration",
+              "newParameterName": "vatregistration"
+            },
+            {
+              "name": "OneTimeAcctCntrySpecificRef1",
+              "newParameterName": "onetimeacctcntryspecificref1"
+            },
+            {
+              "name": "IBAN",
+              "newParameterName": "iban"
+            },
+            {
+              "name": "SWIFTCode",
+              "newParameterName": "swiftcode"
+            },
+            {
+              "name": "OneTimeBusinessPartnerEmail",
+              "newParameterName": "onetimebusinesspartneremail"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false
+    }
+  },
+  {
+    "name": "list_to_supplierinvoiceitemglacct_in_a_supplierinvoice",
+    "title": "list_to_SupplierInvoiceItemGLAcct_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SupplierInvoiceItemGLAcctType entities via the 'to_SupplierInvoiceItemGLAcct' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceItemGLAcct",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_supplierinvoiceitemglacct_in_a_supplierinvoice",
+    "title": "count_to_SupplierInvoiceItemGLAcct_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SupplierInvoiceItemGLAcctType entities accessible via the 'to_SupplierInvoiceItemGLAcct' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceItemGLAcct",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_supplierinvoiceodn_in_a_supplierinvoice",
+    "title": "list_to_SupplierInvoiceODN_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SupplierInvoiceODNType entities via the 'to_SupplierInvoiceODN' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceODN",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_supplierinvoiceodn_in_a_supplierinvoice",
+    "title": "count_to_SupplierInvoiceODN_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SupplierInvoiceODNType entities accessible via the 'to_SupplierInvoiceODN' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceODN",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_supplierinvoicetax_in_a_supplierinvoice",
+    "title": "list_to_SupplierInvoiceTax_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SupplierInvoiceTaxType entities via the 'to_SupplierInvoiceTax' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceTax",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_supplierinvoicetax_in_a_supplierinvoice",
+    "title": "count_to_SupplierInvoiceTax_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SupplierInvoiceTaxType entities accessible via the 'to_SupplierInvoiceTax' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceTax",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "list_to_supplierinvoicewhldgtax_in_a_supplierinvoice",
+    "title": "list_to_SupplierInvoiceWhldgTax_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Navigate from A_SupplierInvoice to related A_SuplrInvcHeaderWhldgTaxType entities via the 'to_SupplierInvoiceWhldgTax' navigation property. Supports OData query options for filtering, sorting, paging, expanding, counting, and selecting specific properties. If the structure of the entity is not known, call get_metadata_api_supplierinvoice_process_srv tool first to get the metadata.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceWhldgTax",
+          "crudOperation": "read",
+          "parameters": [
+            {
+              "name": "filter"
+            },
+            {
+              "name": "select"
+            },
+            {
+              "name": "orderby"
+            },
+            {
+              "name": "top"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "expand"
+            },
+            {
+              "name": "inlinecount"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "count_to_supplierinvoicewhldgtax_in_a_supplierinvoice",
+    "title": "count_to_SupplierInvoiceWhldgTax_in_A_SupplierInvoice_for_api_supplierinvoice_process_srv",
+    "description": "Count A_SuplrInvcHeaderWhldgTaxType entities accessible via the 'to_SupplierInvoiceWhldgTax' navigation property of A_SupplierInvoice in the api_supplierinvoice_process_srv service. Returns the total number of matching entities.",
+    "odataType": {
+      "entitySet": {
+        "name": "A_SupplierInvoice",
+        "navigationProperty": {
+          "name": "to_SupplierInvoiceWhldgTax",
+          "crudOperation": "count",
+          "parameters": [
+            {
+              "name": "filter"
+            }
+          ]
+        },
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "function_post_for_api_supplierinvoice_process_srv",
+    "title": "function_Post_for_api_supplierinvoice_process_srv",
+    "description": "OData function: Post in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.PostInvoiceExportParameters",
+    "odataType": {
+      "operation": {
+        "name": "Post",
+        "type": "function",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "function_release_for_api_supplierinvoice_process_srv",
+    "title": "function_Release_for_api_supplierinvoice_process_srv",
+    "description": "OData function: Release (Releases a blocked supplier invoice.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.ReleaseInvoiceExportParameters",
+    "odataType": {
+      "operation": {
+        "name": "Release",
+        "type": "function",
+        "parameters": [
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "DiscountDaysHaveToBeShifted",
+            "newParameterName": "discountdayshavetobeshifted"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  },
+  {
+    "name": "function_cancel_for_api_supplierinvoice_process_srv",
+    "title": "function_Cancel_for_api_supplierinvoice_process_srv",
+    "description": "OData function: Cancel (Reverses a supplier invoice and creates a reversal document. The system returns the reversal number.) in the api_supplierinvoice_process_srv service. Returns: API_SUPPLIERINVOICE_PROCESS_SRV.CancelInvoiceExportParameters",
+    "odataType": {
+      "operation": {
+        "name": "Cancel",
+        "type": "function",
+        "parameters": [
+          {
+            "name": "PostingDate",
+            "newParameterName": "postingdate"
+          },
+          {
+            "name": "ReversalReason",
+            "newParameterName": "reversalreason"
+          },
+          {
+            "name": "FiscalYear",
+            "newParameterName": "fiscalyear"
+          },
+          {
+            "name": "SupplierInvoice",
+            "newParameterName": "supplierinvoice"
+          }
+        ]
+      },
+      "responseHeaders": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "cache-control"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "last-modified"
+        },
+        {
+          "name": "x-request-id"
+        },
+        {
+          "name": "x-correlation-id"
+        },
+        {
+          "name": "content-type"
+        },
+        {
+          "name": "content-encoding"
+        },
+        {
+          "name": "content-language"
+        },
+        {
+          "name": "content-length"
+        },
+        {
+          "name": "dataserviceversion"
+        },
+        {
+          "name": "sap-message"
+        }
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true
+    }
+  }
+]

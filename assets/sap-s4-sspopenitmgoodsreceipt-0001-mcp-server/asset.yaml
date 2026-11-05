@@ -1,0 +1,21 @@
+apiVersion: asset.sap/v1
+kind: Asset
+type: mcp-server
+
+metadata:
+  name: sap-s4-sspopenitmgoodsreceipt-0001-mcp-server
+  description: "Exposes SAP S/4HANA Goods Receipt Confirmation read operations as MCP tools — check GR posting status for purchase orders."
+  version: "1.0.0"
+  translation: mcp-translation/translation.json
+  apiSpec: mcp-translation/api-spec.edmx
+
+requires:
+  - name: SSPOPENITMGOODSRECEIPT_0001
+    kind: api
+    ordId: sap.s4:apiResource:SSPOPENITMGOODSRECEIPT_0001:v1
+
+provides:
+  apis:
+    - name: sap-s4-sspopenitmgoodsreceipt-0001-mcp-server
+      kind: mcp-server
+      ordId: customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1

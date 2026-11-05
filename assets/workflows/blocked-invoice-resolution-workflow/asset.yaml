@@ -1,0 +1,48 @@
+apiVersion: asset.sap/v1
+kind: Asset
+
+metadata:
+  name: blocked-invoice-resolution-workflow
+  description: "Daily automated workflow that retrieves all blocked supplier invoices from S/4HANA, enriches each with PO details, goods receipt status, Ariba contract terms, and cost center manager identity, invokes an AI agent to classify the block reason, auto-releases invoices within 2% variance tolerance, and routes others to cost center managers via Outlook and SAP Task Center."
+  version: "1.0.0"
+  type: n8nworkflow
+
+projectVersion: "1"
+sourceRoot: "."
+
+workflow:
+  definitionFile: blocked-invoice-resolution-workflow.n8n.json
+  name: blocked-invoice-resolution-workflow
+  ordId: sap.btpn8n:apiResource:ManagedN8nMcpServer:v1
+
+requires:
+  - name: sap-s4-api-supplierinvoice-process-srv-mcp-server
+    kind: mcp-server
+    ordId: customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1
+  - name: sap-s4-api-purchaseorder-process-srv-mcp-server
+    kind: mcp-server
+    ordId: customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-purchaseorder-process-srv-mcp-server:v1
+  - name: sap-s4-sspopenitmgoodsreceipt-0001-mcp-server
+    kind: mcp-server
+    ordId: customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-sspopenitmgoodsreceipt-0001-mcp-server:v1
+  - name: sap-s4-ce-costcenter-0001-mcp-server
+    kind: mcp-server
+    ordId: customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-ce-costcenter-0001-mcp-server:v1
+  - name: sap-aribas4-contract-terms-management-mcp-server
+    kind: mcp-server
+    ordId: customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-aribas4-contract-terms-management-mcp-server:v1
+  - name: blocked-invoice-resolution-agent
+    kind: agent
+    ordId: customer.build:agent:blocked-invoice-resolution-ffdbb.blocked-invoice-resolution-agent:v1
+
+provides:
+  apis:
+    - name: blocked_invoice_daily_run
+      path: /blocked-invoice-resolution-ffdbb/blocked-invoice-resolution-workflow/blocked-invoice-daily-run
+      kind: rest
+      description: "Triggers the daily blocked invoice resolution run. Called once per day by an external scheduler."
+      ordId: "sap.n8nwfrt:apiResource:blocked-invoice-resolution-ffdbb_blocked-invoice-resolution-workflow.blockedInvoiceDailyRun:v1"
+    - name: blocked_invoice_daily_run_mcp_server
+      kind: mcp-server
+      description: "MCP server for blocked invoice daily run webhook operations"
+      ordId: "sap.n8nwfrt:apiResource:blocked-invoice-resolution-ffdbb_blocked-invoice-resolution-workflow.blockedInvoiceDailyRunMcpServer:v1"

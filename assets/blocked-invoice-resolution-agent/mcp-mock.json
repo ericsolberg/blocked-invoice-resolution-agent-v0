@@ -1,0 +1,330 @@
+{
+  "servers": {
+    "s4-supplier-invoice": {
+      "mcp_server_name": "sap.s4/API_SUPPLIERINVOICE_PROCESS_SRV",
+      "description": "Exposes SAP S/4HANA Supplier Invoice operations as MCP tools — list blocked invoices, read invoice details, and release payment blocks.",
+      "tools": {
+        "get_metadata_api_supplierinvoice_process_srv": {
+          "description": "Get OData service metadata for the Supplier Invoice API.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "dataServices": { "schema": [] } }
+        },
+        "batch_for_api_supplierinvoice_process_srv": {
+          "description": "Execute a batch of OData requests against the Supplier Invoice API.",
+          "input_schema": { "type": "object", "properties": { "requests": { "type": "array" } }, "required": [] },
+          "mock_response": { "responses": [] }
+        },
+        "list_a_supplierinvoice_for_api_supplierinvoice_process_srv": {
+          "description": "Retrieve a list of supplier invoices, optionally filtered by payment block indicator.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$top": { "type": "string", "description": "Max results" },
+              "$filter": { "type": "string", "description": "OData filter expression" },
+              "$select": { "type": "string", "description": "Fields to return" }
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "SupplierInvoice": "5100000001",
+                "FiscalYear": "2026",
+                "CompanyCode": "1000",
+                "InvoiceGrossAmount": "1050.00",
+                "DocumentCurrency": "EUR",
+                "InvoicingParty": "VENDOR-0042",
+                "PurchaseOrder": "4500012345",
+                "PaymentBlockingReason": "R",
+                "CreationDate": "/Date(1746576000000)/"
+              },
+              {
+                "SupplierInvoice": "5100000002",
+                "FiscalYear": "2026",
+                "CompanyCode": "1000",
+                "InvoiceGrossAmount": "980.00",
+                "DocumentCurrency": "EUR",
+                "InvoicingParty": "VENDOR-0017",
+                "PurchaseOrder": "4500012346",
+                "PaymentBlockingReason": "R",
+                "CreationDate": "/Date(1746576000000)/"
+              }
+            ]
+          }
+        },
+        "get_a_supplierinvoice_for_api_supplierinvoice_process_srv": {
+          "description": "Retrieve a single supplier invoice by key.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "SupplierInvoice": { "type": "string", "description": "Invoice document number" },
+              "FiscalYear": { "type": "string", "description": "Fiscal year" }
+            },
+            "required": ["SupplierInvoice", "FiscalYear"]
+          },
+          "mock_response": {
+            "SupplierInvoice": "5100000001",
+            "FiscalYear": "2026",
+            "CompanyCode": "1000",
+            "InvoiceGrossAmount": "1050.00",
+            "DocumentCurrency": "EUR",
+            "InvoicingParty": "VENDOR-0042",
+            "PurchaseOrder": "4500012345",
+            "PaymentBlockingReason": "R",
+            "CreationDate": "/Date(1746576000000)/"
+          }
+        },
+        "count_a_supplierinvoice_for_api_supplierinvoice_process_srv": {
+          "description": "Count supplier invoices matching a filter.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" } }, "required": [] },
+          "mock_response": { "value": 2 }
+        },
+        "list_a_supplierinvoiceitemglacct": {
+          "description": "List GL account line items for supplier invoices.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" } }, "required": [] },
+          "mock_response": {
+            "results": [
+              { "SupplierInvoice": "5100000001", "FiscalYear": "2026", "SupplierInvoiceItem": "1", "GLAccount": "400000", "AmountInTransCrcy": "1050.00" }
+            ]
+          }
+        },
+        "get_a_supplierinvoiceitemglacct": {
+          "description": "Get a single GL account line item for a supplier invoice.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "SupplierInvoice": { "type": "string" },
+              "FiscalYear": { "type": "string" },
+              "SupplierInvoiceItem": { "type": "string" }
+            },
+            "required": ["SupplierInvoice", "FiscalYear", "SupplierInvoiceItem"]
+          },
+          "mock_response": { "SupplierInvoice": "5100000001", "FiscalYear": "2026", "SupplierInvoiceItem": "1", "GLAccount": "400000", "AmountInTransCrcy": "1050.00" }
+        },
+        "count_a_supplierinvoiceitemglacct": {
+          "description": "Count GL account line items.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "value": 1 }
+        },
+        "list_to_supplierinvoiceitemglacct_in_a_supplierinvoice": {
+          "description": "Navigate to GL account items from a supplier invoice.",
+          "input_schema": { "type": "object", "properties": { "SupplierInvoice": { "type": "string" }, "FiscalYear": { "type": "string" } }, "required": ["SupplierInvoice", "FiscalYear"] },
+          "mock_response": { "results": [{ "SupplierInvoiceItem": "1", "GLAccount": "400000" }] }
+        },
+        "count_to_supplierinvoiceitemglacct_in_a_supplierinvoice": {
+          "description": "Count GL account items for a supplier invoice.",
+          "input_schema": { "type": "object", "properties": { "SupplierInvoice": { "type": "string" }, "FiscalYear": { "type": "string" } }, "required": ["SupplierInvoice", "FiscalYear"] },
+          "mock_response": { "value": 1 }
+        },
+        "function_release_for_api_supplierinvoice_process_srv": {
+          "description": "Release a blocked supplier invoice by removing the payment block.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "SupplierInvoice": { "type": "string", "description": "Invoice document number" },
+              "FiscalYear": { "type": "string", "description": "Fiscal year" }
+            },
+            "required": ["SupplierInvoice", "FiscalYear"]
+          },
+          "mock_response": { "success": true, "SupplierInvoice": "5100000001", "FiscalYear": "2026", "PaymentBlockingReason": "" }
+        }
+      }
+    },
+    "s4-purchase-order": {
+      "mcp_server_name": "sap.s4/API_PURCHASEORDER_PROCESS_SRV",
+      "description": "Exposes SAP S/4HANA Purchase Order read operations as MCP tools.",
+      "tools": {
+        "get_metadata_api_purchaseorder_process_srv": {
+          "description": "Get OData service metadata for the Purchase Order API.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "dataServices": { "schema": [] } }
+        },
+        "batch_for_api_purchaseorder_process_srv": {
+          "description": "Execute a batch of OData requests.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "responses": [] }
+        },
+        "list_a_purchaseorder_for_api_purchaseorder_process_srv": {
+          "description": "Retrieve a list of purchase orders.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" }, "$top": { "type": "string" } }, "required": [] },
+          "mock_response": {
+            "results": [
+              { "PurchaseOrder": "4500012345", "Supplier": "VENDOR-0042", "PurchaseOrderDate": "/Date(1746576000000)/", "DocumentCurrency": "EUR", "NetPriceAmount": "1000.00", "CostCenter": "CC-1000" }
+            ]
+          }
+        },
+        "get_a_purchaseorder_for_api_purchaseorder_process_srv": {
+          "description": "Retrieve a single purchase order by key.",
+          "input_schema": { "type": "object", "properties": { "PurchaseOrder": { "type": "string" } }, "required": ["PurchaseOrder"] },
+          "mock_response": { "PurchaseOrder": "4500012345", "Supplier": "VENDOR-0042", "PurchaseOrderDate": "/Date(1746576000000)/", "DocumentCurrency": "EUR", "NetPriceAmount": "1000.00", "CostCenter": "CC-1000" }
+        },
+        "count_a_purchaseorder_for_api_purchaseorder_process_srv": {
+          "description": "Count purchase orders.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "value": 1 }
+        },
+        "list_a_purchaseorderitem_for_api_purchaseorder_process_srv": {
+          "description": "Retrieve purchase order line items.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" } }, "required": [] },
+          "mock_response": {
+            "results": [
+              { "PurchaseOrder": "4500012345", "PurchaseOrderItem": "00010", "Material": "MAT-001", "OrderQuantity": "10", "NetPriceAmount": "100.00", "Plant": "1000" }
+            ]
+          }
+        },
+        "get_a_purchaseorderitem_for_api_purchaseorder_process_srv": {
+          "description": "Retrieve a single purchase order line item.",
+          "input_schema": { "type": "object", "properties": { "PurchaseOrder": { "type": "string" }, "PurchaseOrderItem": { "type": "string" } }, "required": ["PurchaseOrder", "PurchaseOrderItem"] },
+          "mock_response": { "PurchaseOrder": "4500012345", "PurchaseOrderItem": "00010", "Material": "MAT-001", "OrderQuantity": "10", "NetPriceAmount": "100.00", "Plant": "1000" }
+        },
+        "count_a_purchaseorderitem_for_api_purchaseorder_process_srv": {
+          "description": "Count purchase order items.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "value": 1 }
+        }
+      }
+    },
+    "s4-goods-receipt": {
+      "mcp_server_name": "sap.s4/SSPOPENITMGOODSRECEIPT_0001",
+      "description": "Exposes SAP S/4HANA Goods Receipt Confirmation read operations as MCP tools.",
+      "tools": {
+        "get_metadata_sap_self_gr": {
+          "description": "Get OData metadata for the Goods Receipt API.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "dataServices": { "schema": [] } }
+        },
+        "batch_for_sap_self_gr": {
+          "description": "Execute a batch of OData requests for Goods Receipt API.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "responses": [] }
+        },
+        "list_a_sspopenitemgoodsreceipt_for_sap_self": {
+          "description": "Retrieve goods receipt records for purchase orders.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" }, "$top": { "type": "string" } }, "required": [] },
+          "mock_response": {
+            "results": [
+              { "PurchaseOrder": "4500012345", "PurchaseOrderItem": "00010", "GoodsReceiptQuantity": "10", "GoodsReceiptDate": "/Date(1746576000000)/", "GoodsReceiptStatus": "YES" }
+            ]
+          }
+        },
+        "get_a_sspopenitemgoodsreceipt_for_sap_self": {
+          "description": "Retrieve a single goods receipt record.",
+          "input_schema": { "type": "object", "properties": { "PurchaseOrder": { "type": "string" }, "PurchaseOrderItem": { "type": "string" } }, "required": ["PurchaseOrder", "PurchaseOrderItem"] },
+          "mock_response": { "PurchaseOrder": "4500012345", "PurchaseOrderItem": "00010", "GoodsReceiptQuantity": "10", "GoodsReceiptDate": "/Date(1746576000000)/", "GoodsReceiptStatus": "YES" }
+        },
+        "count_a_sspopenitemgoodsreceipt_for_sap_self": {
+          "description": "Count goods receipt records.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "value": 1 }
+        }
+      }
+    },
+    "s4-cost-center": {
+      "mcp_server_name": "sap.s4/CE_COSTCENTER_0001",
+      "description": "Exposes SAP S/4HANA Cost Center read operations as MCP tools.",
+      "tools": {
+        "get_metadata_sap_self_cc": {
+          "description": "Get OData metadata for the Cost Center API.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "dataServices": { "schema": [] } }
+        },
+        "batch_for_sap_self_cc": {
+          "description": "Execute a batch of OData requests for Cost Center API.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "responses": [] }
+        },
+        "list_a_costcenter_2_for_sap_self": {
+          "description": "Retrieve a list of cost centers.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" }, "$top": { "type": "string" } }, "required": [] },
+          "mock_response": {
+            "results": [
+              { "CostCenter": "CC-1000", "ControllingArea": "A000", "CostCenterName": "Corporate IT", "ResponsiblePerson": "jordan.manager@company.com", "ValidityEndDate": "/Date(9999999999000)/" }
+            ]
+          }
+        },
+        "get_a_costcenter_2_for_sap_self": {
+          "description": "Retrieve a single cost center by key.",
+          "input_schema": { "type": "object", "properties": { "CostCenter": { "type": "string" }, "ControllingArea": { "type": "string" }, "ValidityEndDate": { "type": "string" } }, "required": ["CostCenter", "ControllingArea", "ValidityEndDate"] },
+          "mock_response": { "CostCenter": "CC-1000", "ControllingArea": "A000", "CostCenterName": "Corporate IT", "ResponsiblePerson": "jordan.manager@company.com", "ValidityEndDate": "/Date(9999999999000)/" }
+        },
+        "count_a_costcenter_2_for_sap_self": {
+          "description": "Count cost centers.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "value": 1 }
+        },
+        "list_a_costcentertext_2_for_sap_self": {
+          "description": "List cost center text descriptions.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" } }, "required": [] },
+          "mock_response": { "results": [{ "CostCenter": "CC-1000", "Language": "EN", "CostCenterName": "Corporate IT" }] }
+        },
+        "get_a_costcentertext_2_for_sap_self": {
+          "description": "Get a single cost center text.",
+          "input_schema": { "type": "object", "properties": { "CostCenter": { "type": "string" }, "Language": { "type": "string" } }, "required": ["CostCenter", "Language"] },
+          "mock_response": { "CostCenter": "CC-1000", "Language": "EN", "CostCenterName": "Corporate IT" }
+        },
+        "count_a_costcentertext_2_for_sap_self": {
+          "description": "Count cost center text entries.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "value": 1 }
+        },
+        "list_a_costcenter_2__costcentertext_for_sap_self": {
+          "description": "List cost center with text navigation.",
+          "input_schema": { "type": "object", "properties": { "$filter": { "type": "string" } }, "required": [] },
+          "mock_response": { "results": [{ "CostCenter": "CC-1000", "CostCenterName": "Corporate IT" }] }
+        },
+        "get_a_costcenter_2__costcentertext_for_sap_self": {
+          "description": "Get cost center with text navigation.",
+          "input_schema": { "type": "object", "properties": { "CostCenter": { "type": "string" } }, "required": ["CostCenter"] },
+          "mock_response": { "CostCenter": "CC-1000", "CostCenterName": "Corporate IT", "ResponsiblePerson": "jordan.manager@company.com" }
+        },
+        "count_a_costcenter_2__costcentertext_for_sap_self": {
+          "description": "Count cost center with text entries.",
+          "input_schema": { "type": "object", "properties": {}, "required": [] },
+          "mock_response": { "value": 1 }
+        }
+      }
+    },
+    "ariba-contract-terms": {
+      "mcp_server_name": "sap.aribas4/contract_terms_management",
+      "description": "Exposes the SAP Ariba Contract Terms Management API as an MCP tool.",
+      "tools": {
+        "getContractTermsId": {
+          "description": "Retrieve contract terms for a given supplier/vendor ID from Ariba.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "description": "Contract terms ID or vendor ID" }
+            },
+            "required": ["id"]
+          },
+          "mock_response": {
+            "contractId": "CT-0042",
+            "vendorId": "VENDOR-0042",
+            "agreedPriceMin": "900.00",
+            "agreedPriceMax": "1100.00",
+            "currency": "EUR",
+            "paymentTerms": "NET30",
+            "validFrom": "/Date(1735689600000)/",
+            "validTo": "/Date(1798761600000)/"
+          }
+        }
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created_for_agent": "blocked-invoice-resolution-agent",
+    "mock_mode": true,
+    "deterministic": true,
+    "total_servers": 5,
+    "total_tools": 34,
+    "generated_from": [
+      "assets/sap-s4-api-supplierinvoice-process-srv-mcp-server/mcp-translation/translation.json",
+      "assets/sap-s4-api-purchaseorder-process-srv-mcp-server/mcp-translation/translation.json",
+      "assets/sap-s4-sspopenitmgoodsreceipt-0001-mcp-server/mcp-translation/translation.json",
+      "assets/sap-s4-ce-costcenter-0001-mcp-server/mcp-translation/translation.json",
+      "assets/sap-aribas4-contract-terms-management-mcp-server/mcp-translation/translation.json"
+    ],
+    "generation_date": "2026-11-04"
+  }
+}

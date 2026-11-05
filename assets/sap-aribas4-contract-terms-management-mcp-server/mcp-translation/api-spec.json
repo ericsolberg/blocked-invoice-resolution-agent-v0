@@ -1,0 +1,637 @@
+{
+  "swagger": "2.0",
+  "security": [
+    {
+      "workspace_auth": []
+    }
+  ],
+  "securityDefinitions": {
+    "OAuth2": {
+      "type": "oauth2",
+      "description": "To use this API, you need to obtain the OAuth client credentials (client ID and secret) from SAP Ariba. After that, pass these client credentials to the SAP Ariba API token endpoint to obtain an access token.",
+      "tokenUrl": "https://{regionOauth}/oauth/token",
+      "flow": "application",
+      "scopes": {}
+    }
+  },
+  "externalDocs": {
+    "description": "More information is available at https://developer.ariba.com/api where you can select your region's datacenter.",
+    "url": "https://developer.ariba.com/api"
+  },
+  "info": {
+    "version": "1.0.0",
+    "title": "Contract Terms Management API",
+    "description": "This Contract Terms Management allows a client application to :\n- create a contract term in the specified contract workspace and a contract request for the corresponding compliance contract in the specified buyer realm. The API creates the Contract Terms Document in the specified contract workspace and then, calls the Compliance Contract Request API using the Contract Terms Document ID  and the buyer realm name as input. If the Compliance Contract Request Object is successfully created, then the API returns the ACC Contract Request ID to the client; otherwise, it sends an error message to the client.\n- retrieve details including contract term ID, contract request ID and contract ID for the specified contract workspace ID. The response contains the contract terms document details like title, owner, status etc and the compliance contract request details like Contract Request ID (CRID), Contract ID (CID), etc. associated with the contract workspace.\n- synchronize the contract line item information of a contract workspace with the linked compliance contract by specifying the IDs of the contract workspace and the compliance contract. If the request is successful, the API initiates an asynchronous job and returns the job ID for reference."
+  },
+  "x-sap-stateInfo": {
+    "state": "Active"
+  },
+  "x-sap-shortText": "Create and retrieve contract terms documents and compliance contract requests.",
+  "host": "sandbox.api.sap.com",
+  "basePath": "/ariba/api/contract-terms-management/v1/sandbox",
+  "schemes": [
+    "https"
+  ],
+  "x-sap-ext-overview": [
+    {
+      "name": "API Group",
+      "values": [
+        "Strategic Sourcing"
+      ]
+    },
+    {
+      "name": "API System Role",
+      "values": [
+        "SAP Ariba Sourcing"
+      ]
+    },
+    {
+      "name": "Datacenters",
+      "values": [
+        "US",
+        "EU",
+        "RU",
+        "UAE",
+        "KSA",
+        "CN",
+        "AU",
+        "JP",
+        "IN"
+      ]
+    }
+  ],
+  "x-servers": [
+    {
+      "url": "https://{region}/api/contract-terms-management/v1/{environment}",
+      "description": "Contract Terms Management API endpoint",
+      "templates": {
+        "region": {
+          "enum": [
+            "openapi.ariba.com",
+            "eu.openapi.ariba.com",
+            "ru.openapi.ariba.com",
+            "mn1.openapi.ariba.com",
+            "mn2.openapi.ariba.com",
+            "openapi.sapariba.cn",
+            "openapi.au.cloud.ariba.com",
+            "openapi.jp.cloud.ariba.com",
+            "openapi.in.cloud.ariba.com"
+          ],
+          "default": "openapi.ariba.com",
+          "description": "The SAP Ariba region where the SAP Ariba APIs are used."
+        },
+        "regionOauth": {
+          "enum": [
+            "api.ariba.com",
+            "api-eu.ariba.com",
+            "api-ru.ariba.com",
+            "api.mn1.ariba.com",
+            "api.mn2.ariba.com",
+            "api.sapariba.cn",
+            "api.au.cloud.ariba.com",
+            "api.jp.cloud.ariba.com",
+            "api.in.cloud.ariba.com"
+          ],
+          "default": "api.ariba.com",
+          "description": "The SAP Ariba regional OAuth server associated with the region where the SAP Ariba APIs are used."
+        },
+        "environment": {
+          "enum": [
+            "sandbox",
+            "prod"
+          ],
+          "default": "sandbox",
+          "description": "Public URI Prefix for different environments, prod is Test or Production environment for Cloud Business Applications and sandbox is Mock environment with sample data. For more information, go to the SAP Ariba Developer Portal at https://developer.ariba.com."
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "contract-terms-management",
+      "description": "Contract Terms Management API"
+    },
+    {
+      "name": "Contract Terms Management APIs",
+      "description": "Contract Terms Management"
+    }
+  ],
+  "paths": {
+    "/contractWorkspaces/{contractId}/contractTerms": {
+      "get": {
+        "tags": [
+          "Get Contract Terms Id"
+        ],
+        "summary": "Retrieve the contract terms document details and the associated compliance contract details.",
+        "description": "This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.",
+        "operationId": "getContractTermsId",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "contractId",
+            "in": "path",
+            "description": "Contract workspace ID Eg: contractId=Doc123456",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/userParam"
+          },
+          {
+            "$ref": "#/parameters/passwordAdapterParam"
+          },
+          {
+            "$ref": "#/parameters/realmParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "examples": {
+              "application/json": {
+                "documentId": "Doc123456",
+                "owner": "Max Olson",
+                "status": "Active",
+                "title": "Untitled Contract Terms",
+                "lastModifiedDate": "Sat May 24 18:02:12 GMT 2020",
+                "creationDate": "Sat May 23 18:02:06 GMT 2020",
+                "version": "v1",
+                "sspContractRequestId": "CR29",
+                "sspContractId": "C29",
+                "sspContractStatus": "Open",
+                "sspContractRequestStatus": "Processed",
+                "sspRealm": "accAcwSAP-Child1"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ContractTerms"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "400009",
+                  "message": "Integration between S4 and SSP sites is not configured."
+                }
+              ]
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "401001",
+                  "message": "The Contracts APIs feature is not enabled for your site."
+                }
+              ]
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "",
+                  "message": ""
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "404001",
+                  "message": "Contract Terms cannot be created or retrieved because a contract workspace with the specified ID is not found."
+                }
+              ]
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Create Contract Terms"
+        ],
+        "summary": "Create a contract terms document in the contract workspace and a contract request for the corresponding compliance contract.",
+        "description": "This endpoint helps you create a contract terms document in the specified contract workspace in SAP Ariba Contracts and a contract request for the corresponding compliance contract in procurement or invoicing solutions from SAP Ariba Procurement solutions. To create the contract request, the endpoint uses the ID of the newly-created contract terms document. When the endpoint successfully creates the contract terms document and the compliance contract request, it returns the details of the contract terms document as well as the contract request ID of the compliance contract.",
+        "operationId": "createContractTerms",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "contractId",
+            "in": "path",
+            "description": "Contract workspace ID Eg: contractId=Doc12345",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Contains the buyer realm name that is input by the user to specify where the compliance contract needs to be created and the contract workspace header fields that are appended by the API while processing the request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContractTermsRequest"
+            }
+          },
+          {
+            "$ref": "#/parameters/userParam"
+          },
+          {
+            "$ref": "#/parameters/passwordAdapterParam"
+          },
+          {
+            "$ref": "#/parameters/realmParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "examples": {
+              "application/json": {
+                "documentId": "Doc12345",
+                "owner": "Max Olson",
+                "status": "Draft",
+                "title": "Untitled Contract Terms",
+                "lastModifiedDate": "Sat May 23 18:02:12 GMT 2020",
+                "creationDate": "Sat May 23 18:02:06 GMT 2020",
+                "version": "Original",
+                "sspContractRequestId": "CR29",
+                "sspContractId": null,
+                "sspContractStatus": null,
+                "sspContractRequestStatus": "Draft",
+                "sspRealm": "accAcwSAP-Child1"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ContractTerms"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "400009",
+                  "message": "Invalid child realm details"
+                }
+              ]
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "401001",
+                  "message": "The Contracts APIs feature is not enabled for your site."
+                }
+              ]
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "",
+                  "message": ""
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "404001",
+                  "message": "Contract Terms cannot be created or retrieved because a contract workspace with the specified ID is not found."
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/contractWorkspaces/{contractId}/contractTerms/{contractTermId}/state": {
+      "post": {
+        "tags": [
+          "Synchronize Contract Line Items with Contract Terms"
+        ],
+        "summary": "Synchronize contract line item information with the compliance contract",
+        "description": "Synchronize the contract line item information of a contract workspace with the linked compliance contract by specifying the IDs of the contract workspace and the compliance contract. If the request is successful, the API initiates an asynchronous job and returns the job ID for reference.",
+        "operationId": "syncLineItemsToTerms",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Request body containing the attributes to be passed with the API call. The only supported attribute is \"action\", whose value must be \"SyncLineItemsToTerms\\\".",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContractTermsAction"
+            }
+          },
+          {
+            "name": "contractId",
+            "in": "path",
+            "description": "The ID of the contract workspace whose line item information you want to sync.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contractTermId",
+            "in": "path",
+            "description": "The ID of the compliance contract linked with the specified contract workspace",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/userParam"
+          },
+          {
+            "$ref": "#/parameters/passwordAdapterParam"
+          },
+          {
+            "$ref": "#/parameters/realmParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/AsyncResponseOk"
+            }
+          },
+          "400": {
+            "description": "Bad Request. One or more parameters specified in the request are incorrect.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "400009",
+                  "message": "Invalid child realm details"
+                }
+              ]
+            }
+          },
+          "401": {
+            "description": "Unauthorized request. The required feature is not enabled on your site.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "401001",
+                  "message": "The Contracts APIs feature is not enabled for your site."
+                }
+              ]
+            }
+          },
+          "403": {
+            "description": "Forbidden. User does not have the required permissions to access the content.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "",
+                  "message": ""
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Contract workspace not found.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              },
+              "example": [
+                {
+                  "errorCode": "404001",
+                  "message": "Contract Terms cannot be created or retrieved because a contract workspace with the specified ID is not found."
+                }
+              ]
+            }
+          },
+          "412": {
+            "description": "The request could not be completed because of an existing dependency.",
+            "schema": {
+              "$ref": "#/definitions/AsyncResponseError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "userParam": {
+      "in": "query",
+      "name": "user",
+      "required": true,
+      "type": "string",
+      "description": "User ID of the user on whose behalf the API call is invoked."
+    },
+    "passwordAdapterParam": {
+      "in": "query",
+      "name": "passwordAdapter",
+      "required": true,
+      "type": "string",
+      "description": "Password adapter used for authenticating the user on whose behalf the API call is invoked."
+    },
+    "realmParam": {
+      "in": "query",
+      "name": "realm",
+      "required": true,
+      "type": "string",
+      "description": "Name of the SAP Ariba Contract site to which the API query is sent."
+    }
+  },
+  "definitions": {
+    "ContractTermsRequest": {
+      "type": "object",
+      "title": "Contract Terms Request",
+      "properties": {
+        "sspRealm": {
+          "description": "SSP Realm Name",
+          "type": "string"
+        }
+      },
+      "example": {
+        "sspRealm": "accAcwSAP-Child1"
+      }
+    },
+    "ContractTermsAction": {
+      "type": "object",
+      "title": "Contract Terms Action",
+      "properties": {
+        "action": {
+          "description": "Action Name",
+          "type": "string"
+        }
+      },
+      "example": {
+        "action": "SyncLineItemsToTerms"
+      }
+    },
+    "ContractTerms": {
+      "type": "object",
+      "title": "Contract Terms Response",
+      "properties": {
+        "title": {
+          "description": "Title of the contract terms document in the contract workspace",
+          "type": "string"
+        },
+        "documentId": {
+          "description": "ID of the contract terms document in the contract workspace",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version of the contract terms document in the contract workspace",
+          "type": "string"
+        },
+        "owner": {
+          "description": "Owner of the contract terms document in the contract workspace",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status of the contract terms document in the contract workspace",
+          "type": "string"
+        },
+        "lastModifiedDate": {
+          "description": "The last modified date of the contract terms document in the contract workspace",
+          "type": "string"
+        },
+        "creationDate": {
+          "description": "The creation date of the contract terms document in the contract workspace",
+          "type": "string"
+        },
+        "sspContractId": {
+          "description": "Contract ID (CID) of the compliance contract associated with the contract terms document",
+          "type": "string"
+        },
+        "sspContractStatus": {
+          "description": "The status of the compliance contract associated with the contract terms document",
+          "type": "string"
+        },
+        "sspContractRequestId": {
+          "description": "The contract request ID (CRID) of the compliance contract request associated with the contract terms document",
+          "type": "string"
+        },
+        "sspContractRequestStatus": {
+          "description": "The status of the compliance contract request associated with the contract terms document",
+          "type": "string"
+        },
+        "sspRealm": {
+          "description": "SSP Realm Name",
+          "type": "string"
+        }
+      }
+    },
+    "AsyncResponseOk": {
+      "type": "object",
+      "title": "AsyncResponseOk",
+      "properties": {
+        "jobId": {
+          "description": "Displays the ID of the submitted job",
+          "type": "string",
+          "example": "WorkId123456"
+        },
+        "message": {
+          "description": "Displays the message after the job is submitted.",
+          "type": "string",
+          "example": "Job submitted successfully. Use jobId to get status and result of the job."
+        }
+      }
+    },
+    "AsyncResponseError": {
+      "type": "object",
+      "title": "AsyncResponseAccepted",
+      "properties": {
+        "jobId": {
+          "description": "Displays the ID of the already submitted job",
+          "type": "string",
+          "example": "WorkId123456"
+        },
+        "message": {
+          "description": "Displays the message that no new job is submitted and job ids of existing submitted Job",
+          "type": "string",
+          "example": "Job not submitted due to existing Jobs Status dependency : WorkId123456=Submitted"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "title": "Error",
+      "properties": {
+        "errorCode": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

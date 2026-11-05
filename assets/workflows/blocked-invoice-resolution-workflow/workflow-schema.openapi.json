@@ -1,0 +1,86 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Blocked Invoice Resolution Workflow",
+    "version": "1.0.0",
+    "description": "Triggers the daily blocked invoice resolution run. Retrieves all blocked invoices from S/4HANA, enriches them with PO, goods receipt, Ariba contract terms, and cost center manager identity, then classifies with AI and auto-releases or routes for approval."
+  },
+  "paths": {
+    "/blocked-invoice-resolution-ffdbb/blocked-invoice-resolution-workflow/blocked-invoice-daily-run": {
+      "post": {
+        "summary": "Trigger Daily Blocked Invoice Resolution Run",
+        "description": "Initiates the daily automated run that processes all blocked supplier invoices in S/4HANA.",
+        "operationId": "blockedInvoiceDailyRun",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "runId": {
+                    "type": "string",
+                    "description": "Optional identifier for this run, used for tracing."
+                  },
+                  "triggeredBy": {
+                    "type": "string",
+                    "description": "Identifier of the scheduler or user who triggered this run."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Run completed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": ["completed"],
+                      "description": "Run completion status."
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable summary of the run."
+                    }
+                  },
+                  "required": ["status", "message"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Run failed at the data fetch step.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": ["error"]
+                    },
+                    "step": {
+                      "type": "string",
+                      "description": "The workflow step at which the error occurred."
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Error message."
+                    }
+                  },
+                  "required": ["status", "step", "error"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

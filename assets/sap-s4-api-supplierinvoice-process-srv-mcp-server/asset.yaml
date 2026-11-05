@@ -1,0 +1,21 @@
+apiVersion: asset.sap/v1
+kind: Asset
+type: mcp-server
+
+metadata:
+  name: sap-s4-api-supplierinvoice-process-srv-mcp-server
+  description: "Exposes SAP S/4HANA Supplier Invoice operations as MCP tools — list blocked invoices, read invoice details, and release payment blocks."
+  version: "1.0.0"
+  translation: mcp-translation/translation.json
+  apiSpec: mcp-translation/api-spec.edmx
+
+requires:
+  - name: API_SUPPLIERINVOICE_PROCESS_SRV
+    kind: api
+    ordId: sap.s4:apiResource:API_SUPPLIERINVOICE_PROCESS_SRV:v1
+
+provides:
+  apis:
+    - name: sap-s4-api-supplierinvoice-process-srv-mcp-server
+      kind: mcp-server
+      ordId: customer.build:apiResource:blocked-invoice-resolution-ffdbb.sap-s4-api-supplierinvoice-process-srv-mcp-server:v1

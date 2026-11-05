@@ -1,0 +1,16 @@
+apiVersion: solution.sap/v1
+kind: Solution
+
+metadata:
+  name: blocked-invoice-resolution-ffdbb
+  version: "1.0.0"
+  description: "Daily automated workflow that resolves blocked supplier invoices using AI classification, S/4HANA and Ariba integration, auto-release within policy tolerance, and cost center manager approval via SAP Task Center."
+
+assets:
+  - ref: ./assets/sap-s4-api-supplierinvoice-process-srv-mcp-server/asset.yaml
+  - ref: ./assets/sap-s4-api-purchaseorder-process-srv-mcp-server/asset.yaml
+  - ref: ./assets/sap-s4-sspopenitmgoodsreceipt-0001-mcp-server/asset.yaml
+  - ref: ./assets/sap-s4-ce-costcenter-0001-mcp-server/asset.yaml
+  - ref: ./assets/sap-aribas4-contract-terms-management-mcp-server/asset.yaml
+  - ref: ./assets/blocked-invoice-resolution-agent/asset.yaml
+  - ref: ./assets/workflows/blocked-invoice-resolution-workflow/asset.yaml

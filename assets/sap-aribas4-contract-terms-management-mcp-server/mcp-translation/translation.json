@@ -1,0 +1,87 @@
+{
+  "mcpTranslationVersion": "0.8",
+  "target": {
+    "ordId": "sap.aribas4:apiResource:contract_terms_management:v1",
+    "type": "openapi-v3"
+  },
+  "serverInfo": {
+    "name": "sap.mcp/contract_terms_management_api",
+    "title": "contract_terms_management_api",
+    "version": "1.0.0",
+    "description": "MCP server for the contract_terms_management_api service."
+  },
+  "tools": [
+    {
+      "name": "getContractTermsId",
+      "title": "getContractTermsId",
+      "description": "This endpoint helps you retrieve the details, such as document ID, owner, status, modified dates, etc., of the contract  terms document in the contract workspace and the corresponding contract request ID and contract ID for the compliance contract.",
+      "openApiType": {
+        "operationId": "getContractTermsId",
+        "parameters": [
+          {
+            "name": "contractId",
+            "description": "Contract workspace ID Eg: contractId=Doc123456",
+            "in": "path",
+            "newParameterName": "contractid"
+          },
+          {
+            "name": "user",
+            "description": "User ID of the user on whose behalf the API call is invoked.",
+            "in": "query",
+            "newParameterName": "user"
+          },
+          {
+            "name": "passwordAdapter",
+            "description": "Password adapter used for authenticating the user on whose behalf the API call is invoked.",
+            "in": "query",
+            "newParameterName": "passwordadapter"
+          },
+          {
+            "name": "realm",
+            "description": "Name of the SAP Ariba Contract site to which the API query is sent.",
+            "in": "query",
+            "newParameterName": "realm"
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "responseHeaders": [
+          {
+            "name": "age"
+          },
+          {
+            "name": "cache-control"
+          },
+          {
+            "name": "expires"
+          },
+          {
+            "name": "last-modified"
+          },
+          {
+            "name": "x-request-id"
+          },
+          {
+            "name": "x-correlation-id"
+          },
+          {
+            "name": "content-type"
+          },
+          {
+            "name": "content-encoding"
+          },
+          {
+            "name": "content-language"
+          },
+          {
+            "name": "content-length"
+          }
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    }
+  ]
+}
